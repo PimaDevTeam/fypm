@@ -31,27 +31,33 @@
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('project.index') }}" class="nav-link">
                             <i class="fas fa-project-diagram mr-1"></i>
-                            Projects
+                            Project
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('project.resources.index') }}" class="nav-link">
                             <i class="fas fa-folder-open mr-1"></i>
                             Resources
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('project.index') }}" class="nav-link">
                             <i class="fas fa-calendar-alt mr-1"></i>
                             Events
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('project.topics.index') }}" class="nav-link">
                             <i class="fas fa-file-alt mr-1"></i>
-                            Project Topics
+                            Find Projects
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('project.members') }}" class="nav-link">
+                            <i class="fas fa-user-friends mr-1"></i>
+                            Members
                         </a>
                     </li>
                 </ul>
@@ -84,7 +90,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mb-5">
         @yield('content')
     </div>
     

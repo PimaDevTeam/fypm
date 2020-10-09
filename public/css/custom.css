@@ -1,3 +1,7 @@
+a {
+    text-decoration: none!important;
+}
+
 /* LOGIN PAGE */
 .auth__form--container {
     width: 70%;
@@ -120,3 +124,57 @@
 .event-time span {
     font-size: .7rem;
 }
+
+/* USER DASHBOARD CSS  */
+
+
+/* PROJECT PAGE */
+.extension_img {
+    width: 100px;
+    height: 100px;
+}
+
+.project__posted-by img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+
+}
+
+/* PROJECT PAGE */
+
+
+/* PROJECT MEMBERS PAGE */
+.project-member__image-container img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.pj_member img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+/* PROJECT MEMBERS PAGE */
+
+/* FIND PROJECT TOPICS PAGE */
+
+.fd__projects--bg {
+    background-image: url('/images/fyp-banner3.jpg');
+    background-size: cover;
+}
+
+.select__pt--bg {
+    background-image: url('/images/select-project-bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.fyp__resources-bg {
+    background-image: url('/images/fyp-guide.gif');
+    background-size: cover;
+    background-position: center;
+}
+/* ../ FIND PROJECT TOPICS PAGE */

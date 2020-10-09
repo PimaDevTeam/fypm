@@ -39,9 +39,9 @@ $user = Auth::user();
         @include('layouts.user.left_sidebar')
         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
             <div class="main__container bg-white rounded shadow px-2 py-2">
-                <h6 class="text-blue-900 font-semibold">LIBRARY MANAGEMENT SYSTEM (LMS) SOFTWARE</h6>
+                <h6 class="text-blue-900 font-semibold uppercase">Find Project Topics</h6>
                 <hr class="mt-1">
-                <div class="pj__header-container h-20 bg-gradient-to-r from-teal-400 to-blue-500 rounded"></div>
+                <div class="pj__header-container select__pt--bg h-40 rounded"></div>
                 <div class="project__details-container px-2 py-2">
                     <div class="flex rounded">
                         <div class="h-20 w-20 bg-blue-800 rounded shadow text-center text-white" style="margin-top: -3rem">
@@ -64,35 +64,16 @@ $user = Auth::user();
                     </div>
                 </div>
                 <div class="mt-2 px-2 py-2">
-                <h6 class="text-blue-900 font-semibold uppercase">Project Description (sub-header)</h6>
+                <h6 class="text-blue-900 font-semibold uppercase">What the project entails</h6>
                 <hr class="mt-1">
                     <p class="">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                         Voluptates maiores eum rem quam laudantium commodi libero, alias quisquam, enim provident 
                         corrupti accusantium cumque similique sed voluptatem ea consequatur quod laboriosam!
                     </p>
+                    <hr>
+                    <button class="btn btn-primary btn__project-select"> <i class="fa fa-check" aria-hidden="true"></i> Select Project</button>
                 </div>
-            </div> 
-            <div class="main__container bg-white mt-4 rounded shadow px-2 py-2">
-                <h6 class="text-blue-900 font-semibold">UPLOAD PROJECT</h6>
-                <hr class="mt-1">
-                <form action="">
-                    <div class="project__upload px-2 py-2" style="border: 1px dashed grey;">
-                        <div class="form-group upload-btn-wrapper">
-                            <div class="extension__container"></div>
-                            <div class="">
-                                <div class="box">
-                                    <input type="file" name="file-3[]" id="file-3" class="inputfile inputfile-3" data-multiple-caption="{count} files selected" multiple="">
-                                    <label class="flex justify-center transition-all duration-200 ease-in-out" for="file-3"><i class="fas fa-file-alt fdoc mr-2 mt-1"></i> <span>filename.docx</span></label>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-center text-gray-600">Download Yoir Project</p>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary mt-2"> <i class="fas fa-download mr-1"></i> Download</button>
-                    </div>
-                </form>
             </div> 
         </div>
         @include('layouts.user.right_sidebar')

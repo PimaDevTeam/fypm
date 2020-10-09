@@ -10,6 +10,10 @@
 	var inputs = document.querySelectorAll( '.inputfile' );
 	var fupload = document.querySelector('.fupload');
 	var fdoc = document.querySelector('.fdoc');
+	// Showing image based on the extension of the image
+	var docExtensionContainer = document.querySelector('.extension__container');
+	var pdfExtensionImage = `<img src="/images/adobe-pdf-icon.svg" class="img-fluid ml-auto mr-auto mb-2 extension_img" alt="">`;
+	var wordExtensionImage = `<img src="/images/microsoft-word-logo.svg" class="img-fluid ml-auto mr-auto mb-2 extension_img" alt="">`;
 	Array.prototype.forEach.call( inputs, function( input )
 	{
 		var label	 = input.nextElementSibling,
@@ -26,9 +30,12 @@
 			if( fileName ) {
 				label.querySelector( 'span' ).innerHTML = fileName;
 				var splitName = fileName.split('.');
-				var lastName = splitName[1];
-				console.log(splitName);
-				console.log(lastName);
+				var fileExtension = splitName[1];
+				if(fileExtension == 'docx') {
+					docExtensionContainer.innerHTML = wordExtensionImage;
+				} else if(fileExtension == 'pdf') {
+					docExtensionContainer.innerHTML = pdfExtensionImage;
+				} 
 				fupload.style.display = 'none';
 				fdoc.classList.remove('d-none');
 			}

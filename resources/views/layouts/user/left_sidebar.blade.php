@@ -17,7 +17,7 @@
               </ul>
               <hr>
             <h6 class="font-semi-bold uppercase sidebar__header">My Project</h6>
-            <a href="{{ route('project.index') }}" class="btn btn-primary btn-block">Upload Project</a>
+            <a href="{{ route('project.upload') }}" class="btn btn-primary btn-block">Upload Project</a>
         </div>
     </div>
 </div>
