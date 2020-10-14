@@ -177,4 +177,33 @@ a {
     background-size: cover;
     background-position: center;
 }
+
+/* EVENTS PAGE */
+.ev__projects--bg {
+    background-image: url('/images/event.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.btn__event {
+    background-color: #38b2ac!important;
+    border-color: #38b2ac!important;
+}
+/* EVENTS PAGE */
 /* ../ FIND PROJECT TOPICS PAGE */
+
+/* PROFILE PAGE */
+.pf__bg-cover {
+    background-image: url('/images/profile-bg.jpg');
+    background-size: cover;
+    background-position: center; 
+}
+/* PROFILE PAGE */
+
+/* GROUP PAGE */
+.gp__projects--bg {
+    background-image: url('/images/group-bg.jpg');
+    background-size: cover;
+    background-position: center; 
+}
+/* GROUP PAGE */
+

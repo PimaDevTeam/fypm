@@ -42,19 +42,29 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
 
-    public function student() {
-        return $this->belongsTo('App\Student');
+    public function session() {
+        return $this->belongsTo('App\Session');
     }
 
-    public function teacher() {
-        return $this->belongsTo('App\Teacher');
+    public function program() {
+        return $this->belongsTo('App\Program');
     }
 
+    public function projectForum() {
+        return $this->hasMany('App\ProjectForum');
+    }
 
+    public function userProject() {
+        return $this->hasMany('App\UserProject');
+    }
 
+    public function semesterScore() {
+        return $this->hasMany('App\SemesterScore');
+    }
 
-
-
+    public function degree() {
+        return $this->belongsTo('App\Degree');
+    }
 
 
 

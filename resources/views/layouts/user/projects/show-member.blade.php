@@ -41,7 +41,7 @@ $user = Auth::user();
             <div class="main__container bg-white rounded shadow px-2 py-2">
                 <h6 class="text-blue-900 font-semibold">PROJECT MEMBER</h6>
                 <hr class="mt-1">
-                <div class="pj__header-container h-20 bg-gradient-to-r from-teal-400 to-blue-500 rounded"></div>
+                <div class="pj__header-container h-40 pf__bg-cover rounded"></div>
                 <div class="project__details-container px-2 py-2">
                     <div class="flex rounded">
                         <div class="shadow pj_member" style="margin-top: -3rem; border-radius: 50%;">

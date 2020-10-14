@@ -16,9 +16,9 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('year'); // session
-            $table->integer('user_id'); // user_id is used to get the user's name
-            $table->integer('teacher_id');
+            $table->integer('proposed_by');
+            $table->integer('project_status_id');
+            $table->string('project_file')->nullable();
             $table->timestamps();
         });
     }

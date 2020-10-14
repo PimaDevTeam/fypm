@@ -2,36 +2,6 @@
 $user = Auth::user();
 ?>
 
-<style>
-.inputfile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}
-.inputfile + label {
-    font-size: 1rem;
-    font-weight: 400;
-    color: white;
-    background-color: #acb3ba;
-    display: flex;
-    border-radius: 5px;
-    padding: .4rem;
-    width: 100%;
-    text-align: center;
-}
-
-.inputfile:focus + label,
-.inputfile + label:hover {
-    background-color:#6c757d;
-}
-.inputfile + label {
-	cursor: pointer; /* "hand" cursor */
-}
-</style>
-
 @extends('layouts.user.app')
 
 @section('content') 
@@ -39,20 +9,28 @@ $user = Auth::user();
         @include('layouts.user.left_sidebar')
         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
             <div class="main__container bg-white rounded shadow px-2 py-2">
-                <h6 class="text-blue-900 font-semibold uppercase">Guides to Final year Project</h6>
+                <h6 class="text-blue-900 font-semibold uppercase">Coming Events</h6>
                 <hr class="mt-1">
-                <div class="pj__header-container fyp__resources-bg h-40 rounded"></div>
+                <div class="pj__header-container ev__projects--bg h-40 rounded"></div>
                 <div class="project__details-container px-2 py-2">
                     <div class="flex rounded">
-                        <div class="h-20 w-20 bg-blue-800 rounded shadow text-center text-white" style="margin-top: -3rem">
+                        <div class="h-20 w-20 bg-teal-700 rounded shadow text-center text-white" style="margin-top: -3rem">
                             <span class="text-5xl">
-                                <i class="fas fa-book mt-3"></i>
+                                <i class="fas fa-calendar-day mt-3"></i>
                             </span>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-gray-500" style="font-size: .8rem">  </span>
+                        </div>
+                        <div class="flex ml-auto">
+                            <div class="justify-end flex project__posted-by">
+                                <span class="text-gray-500">Upcoming Events Take Notes</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="mt-2 px-2 py-2">
-                <h6 class="text-blue-900 font-semibold uppercase">Resources to guide you through your Final year Project</h6>
+                <h6 class="text-blue-900 font-semibold uppercase">Take Note of the date for the events</h6>
                 <hr class="mt-1">
                     <p class="">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. 
@@ -63,20 +41,19 @@ $user = Auth::user();
             </div> 
             <div class="main__container bg-white mt-4 rounded shadow-sm px-2 py-2">
                 <div class="flex">
-                    <div class="bg-blue-800 rounded shadow w-20 mr-2"></div>
+                    <div class="bg-teal-500 rounded shadow w-20 mr-2"></div>
                     <div class="project__topics-descriptions">
                         <div class="flex">
                             <h6 class="text-blue-900 font-semibold uppercase">
-                                <a href="{{ route('project.resources.show') }}">
-                                    Steps to maximize project time
+                                <a href="#">
+                                    Mini Defence
                                 </a>
                             </h6>
                         </div>
-                        <small class="text-gray-500">Prof. Idowu S.A - </small>
-                        <p class="mt-2 text-gray-600" style="font-size: .8rem">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Voluptates maiores eum rem quam laudantium commodi libero,
-                        </p>
+                        <div>
+                            <h6 class="text-gray-500">Posted by - Prof. Idowu S.A - </h6>
+                            <button class="btn btn-primary btn-sm btn__event">View Details</button>
+                        </div>
                     </div>
                 </div>
             </div> 

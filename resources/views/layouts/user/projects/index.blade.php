@@ -74,7 +74,7 @@ $user = Auth::user();
                 </div>
             </div> 
             <div class="main__container bg-white mt-4 rounded shadow px-2 py-2">
-                <h6 class="text-blue-900 font-semibold">UPLOAD PROJECT</h6>
+                <h6 class="text-blue-900 font-semibold">DOWNLOAD PROJECT</h6>
                 <hr class="mt-1">
                 <form action="">
                     <div class="project__upload px-2 py-2" style="border: 1px dashed grey;">
