@@ -14,29 +14,29 @@ class AuthController extends Controller
     public function index() {
         return view('auth.login');
     }
-// VALIDATE AND LOGIN STUDENT
+// VALIDATE AND LOGIN USERS
     public function login (Request $request) {
         $data = $request->all();
         // dd($data);
         if(empty($request->email) || empty($request->password)) {
-            return redirect()->back()->with('login-error', 'Field cannot be empty');
+            return redirect()->back()->with('error', 'Field cannot be empty');
         }
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = User::where('email', $request->email)->first();
-            if($user->role_id > 2) {
+            $role = json_decode($user->roles);
+            // dd($role[0]->id);
+            if($role[0]->id > 2) {
+                // dd(json_decode($user->roles));
                 return redirect()->route('user.dashboard');
             } else {
                 return redirect()->route('admin.dashboard');
             }
         } else {
-            return redirect()->back()->with('login-error', 'Login failed try again');
+            return redirect()->back()->with('error', 'Login failed try again');
         }
     }
 
-    public function teacherLogin() {
-
-    }
 
 
     public function logout(){

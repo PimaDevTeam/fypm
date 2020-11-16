@@ -32,7 +32,7 @@ Route::group(['middleware' => 'custom.auth'], function () {
     Route::get('/members', 'ProjectController@projectMembers')->name('project.members');
     // Takes a parameter
     Route::get('/members/student', 'ProjectController@projectMemberStudent')->name('project.member.student');
-    Route::get('/project-upload', 'ProjectController@upload')->name('project.upload');
+    Route::get('/project/student-upload', 'ProjectController@upload')->name('student.project.upload');
 
     // Project Topics
     Route::get('/topics', 'ProjectTopicsController@index')->name('project.topics.index');
@@ -61,9 +61,23 @@ Route::group(['middleware' => 'custom.auth'], function () {
 
 });
 
+
+
+
+
 Route::group(['prefix' => 'admin'], function () {
     Route::group([
         'middleware' => ['custom.auth','admin']], function () {
         Route::get('/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
+        // Schools Routes
+        Route::resource('/schools', 'Admin\SchoolsController');
+        Route::resource('/departments', 'Admin\DepartmentsController');
+        Route::resource('/programs', 'Admin\ProgramsController');
+
+        // Assign Supervisors to students
+        Route::group(['prefix' => 'assign'], function () {
+            Route::get('/index', 'Admin\AssignSupervisor@index')->name('assign.index');
+            Route::get('/show/{show}', 'Admin\AssignSupervisor@assign')->name('assign.show');
+        });
     });
 });

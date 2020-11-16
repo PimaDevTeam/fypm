@@ -12,8 +12,8 @@ class Project extends Model
         return $this->hasMany('App\ProjectForum');
     }
 
-    public function userProject() {
-        return $this->hasMany('App\UserProject');
+    public function user() {
+        return $this->belongsToMany('App\User');
     }
 
     public function projectStatus() {

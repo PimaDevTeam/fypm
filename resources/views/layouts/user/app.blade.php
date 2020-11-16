@@ -24,6 +24,10 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 </head>
+@php
+    $student = Auth::user()->roles[0]->id === 4;
+    $supervisor = Auth::user()->roles[0]->id === 3;
+@endphp
 <body class="font-sans">
     <nav class="navbar navbar-expand-sm navbar-dark bg-secondary">
         <div class="container">
@@ -32,7 +36,7 @@
                 aria-expanded="false" aria-label="Toggle navigation">
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
-                @if (Auth::user()->role_id === 4)
+                @if ($student)
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li class="nav-item {{ Request::is('project*') ? 'active' : '' }}">
                             <a href="{{ route('project.index') }}" class="nav-link">
@@ -66,7 +70,7 @@
                         </li>
                     </ul> 
                 @endif
-                @if (Auth::user()->role_id === 3)
+                @if ($supervisor)
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li class="nav-item {{ Request::is('project*') ? 'active' : '' }}">
                             <a href="" class="nav-link">

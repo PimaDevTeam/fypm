@@ -207,3 +207,20 @@ a {
 }
 /* GROUP PAGE */
 
+
+.thead-custom {
+    background: #2a436a;
+    color: #fff;
+}
+
+.btn-admin {
+    color: #fff!important;
+    background: #2a436a!important;
+    border-color: #2a436a!important;
+    box-shadow: none;
+}
+
+.bg-admin {
+    background: #5f7594!important;
+}
+

@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->integer('program_id');
             $table->integer('degree_id');
             $table->timestamp('email_verified_at')->nullable();
-            $table->integer('role_id');
+            // $table->integer('role_id');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

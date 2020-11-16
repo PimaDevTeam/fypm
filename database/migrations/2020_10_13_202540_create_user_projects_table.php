@@ -19,9 +19,9 @@ class CreateUserProjectsTable extends Migration
             $table->integer('project_id'); // id from projects table
             $table->integer('project_role_id'); // id from project_roles table
             $table->integer('session_id'); // session id from session table
-            $table->integer('supervisor_score');
-            $table->integer('first_sem_score');
-            $table->integer('second_sem_score');
+            // $table->integer('supervisor_score');
+            // $table->integer('first_sem_score');
+            // $table->integer('second_sem_score');
             $table->timestamps();
         });
     }

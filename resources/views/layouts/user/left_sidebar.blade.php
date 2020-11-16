@@ -1,3 +1,7 @@
+@php
+    $student = Auth::user()->roles[0]->id === 4;
+    $supervisor = Auth::user()->roles[0]->id === 3;
+@endphp
 <div class="col-12 col-sm-12 col-md-3 col-lg-3">
     <div class="left__sidebar--container">
         <div class="user__sidebar-profile flex rounded shadow px-2 py-2 bg-white mb-4">
@@ -13,7 +17,7 @@
         </div>
         {{-- STUDENT COMPONENT --}}
         {{-- STUDENT COMPONENT --}}
-        @if (Auth::user()->role_id === 4)
+        @if ($student)
             <div class="sidebar__contents rounded shadow px-2 py-2 bg-white">
                 <h6 class="font-semi-bold uppercase sidebar__header">Group Members</h6>
                 <ul class="list-group list-group-flush">
@@ -23,7 +27,7 @@
                 </ul>
                 <hr>
                 <h6 class="font-semi-bold uppercase sidebar__header">My Project</h6>
-                <a href="{{ route('project.upload') }}" class="btn btn-primary btn-block">Upload Project</a>
+                <a href="{{ route('student.project.upload') }}" class="btn btn-primary btn-block">Upload Project</a>
             </div>
         @endif
         {{-- STUDENT COMPONENT --}}
@@ -32,7 +36,7 @@
 
 
         {{-- STAFF COMPONENT --}}
-        @if (Auth::user()->role_id === 3)
+        @if ($supervisor)
             <div class="sidebar__contents rounded shadow px-2 py-2 bg-white">
                 <h6 class="font-semi-bold uppercase sidebar__header">Groups</h6>
                 <ul class="list-group list-group-flush">

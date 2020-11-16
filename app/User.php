@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone_number', 'role_id', 'department_id', 'gender'
+        'first_name', 'last_name', 'email', 'phone_number', 'program_id', 'session_id', 'degree_id', 'matric_number', 'image'
     ];
 
     /**
@@ -37,9 +37,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function role()
+    public function roles()
     {
-        return $this->belongsTo('App\Role');
+        return $this->belongsToMany('App\Role');
     }
 
     public function session() {
@@ -54,8 +54,8 @@ class User extends Authenticatable
         return $this->hasMany('App\ProjectForum');
     }
 
-    public function userProject() {
-        return $this->hasMany('App\UserProject');
+    public function Project() {
+        return $this->belongsToMany('App\User');
     }
 
     public function semesterScore() {

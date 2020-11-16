@@ -1,6 +1,7 @@
-<?php 
-$user = Auth::user();
-?>
+@php
+    $student = Auth::user()->roles[0]->id === 4;
+    $supervisor = Auth::user()->roles[0]->id === 3;
+@endphp
 
 @extends('layouts.user.app')
 
@@ -10,7 +11,7 @@ $user = Auth::user();
         {{-- STUDENT COMPONENTS --}}
         {{-- STUDENT COMPONENTS --}}
         {{-- STUDENT COMPONENTS --}}
-        @if ($user->role_id === 4)
+        @if ($student)
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="main__container bg-white rounded shadow">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-2 px-3 py-3">
@@ -63,7 +64,7 @@ $user = Auth::user();
         {{-- STAFF COMPONENTS --}}
         {{-- STAFF COMPONENTS --}}
         {{-- STAFF COMPONENTS --}}
-        @if ($user->role_id === 3)
+        @if ($supervisor)
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="main__container bg-white rounded shadow">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-2 px-3 py-3">
