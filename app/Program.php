@@ -20,4 +20,8 @@ class Program extends Model
     public function gradeRequirement() {
         return $this->hasMany('App\GradeRequirement');
     }
+
+    public function project() {
+        return $this->hasMany('App\Project');
+    }
 }

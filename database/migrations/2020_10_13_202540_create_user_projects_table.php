@@ -15,9 +15,9 @@ class CreateUserProjectsTable extends Migration
     {
         Schema::create('user_projects', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id'); // id from users table
-            $table->integer('project_id'); // id from projects table
-            $table->integer('project_role_id'); // id from project_roles table
+            $table->integer('student_id'); // student's ID
+            $table->integer('project_id')->nullable(); // id from projects table
+            $table->integer('supervisor_id'); // Supervisor's ID
             $table->integer('session_id'); // session id from session table
             // $table->integer('supervisor_score');
             // $table->integer('first_sem_score');

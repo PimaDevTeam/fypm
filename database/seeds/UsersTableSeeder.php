@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
         // ]);
 
         $roles = Role::all();
-        factory(App\User::class, 2)
+        factory(App\User::class, 3)
             ->create()->each(function ($user) use ($roles) { 
                 $user->roles()->attach(3); 
             });;

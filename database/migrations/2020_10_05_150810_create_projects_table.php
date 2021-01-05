@@ -17,6 +17,8 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('proposed_by');
+            $table->integer('project_program_id');
+            $table->longText('project_description');
             $table->integer('project_status_id');
             $table->string('project_file')->nullable();
             $table->timestamps();

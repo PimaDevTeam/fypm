@@ -73,11 +73,23 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('/schools', 'Admin\SchoolsController');
         Route::resource('/departments', 'Admin\DepartmentsController');
         Route::resource('/programs', 'Admin\ProgramsController');
+        //Project Routes
+        Route::resource('/project', 'Admin\ProjectController');
+        Route::get('/project-topics/{id}', 'Admin\ProjectController@topics')->name('project.topics');
+        Route::get('/project-approve/{id}', 'Admin\ProjectController@topicsToApprove')->name('project.topics.approve');
+        Route::post('/unapprove', 'Admin\ProjectController@unapprove')->name('project.unapprove');
+        Route::post('/approve', 'Admin\ProjectController@approve')->name('project.approve');
+
+        Route::get('/assign-project', 'Admin\ProjectController@assignIndex')->name('assign.index');
 
         // Assign Supervisors to students
         Route::group(['prefix' => 'assign'], function () {
             Route::get('/index', 'Admin\AssignSupervisor@index')->name('assign.index');
-            Route::get('/show/{show}', 'Admin\AssignSupervisor@assign')->name('assign.show');
+            Route::get('/assign-category/{name}', 'Admin\AssignSupervisor@assignCategory')->name('assign.category');
+            Route::get('/show-assign/{show}', 'Admin\AssignSupervisor@assign')->name('assign.show');
+            Route::get('/show-unassign/{show}', 'Admin\AssignSupervisor@unAssign')->name('assign.unassign');
+            Route::post('/assign', 'Admin\AssignSupervisor@assignSupervisor')->name('assign.assignSupervisor');
+            Route::delete('/unassign/{student}', 'Admin\AssignSupervisor@unassignSupervisor')->name('unassign.supervisor');
         });
     });
 });

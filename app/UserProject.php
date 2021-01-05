@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserProject extends Model
 {
+
+    protected $fillable = [
+        'student_id', 'project_id', 'supervisor_id', 'session_id' 
+    ];
     //
 
     // public function projectRole() {

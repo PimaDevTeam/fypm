@@ -1,3 +1,8 @@
+:root {
+    --admin_blue: #2a4365;
+}
+
+
 a {
     text-decoration: none!important;
 }
@@ -213,6 +218,11 @@ a {
     color: #fff;
 }
 
+/* --------------- */
+/* Admin */
+/* --------------- */
+
+
 .btn-admin {
     color: #fff!important;
     background: #2a436a!important;
@@ -223,4 +233,24 @@ a {
 .bg-admin {
     background: #5f7594!important;
 }
+.assign__card--container {
+    border-radius: 10px;
+    position: relative;
+    -moz-transition: ease-in-out all 0.35s;
+    -o-transition: ease-in-out all 0.35s;
+    -webkit-transition: ease-in-out all 0.35s;
+    transition: ease-in-out all 0.35s;
+}
+.assign__card--container div svg {
+    fill: var(--admin_blue);
+    margin-left: auto;
+    margin-right: auto;
+}
+.aSTUD:hover {
+    box-shadow: 0 1rem 3rem rgba(31, 45, 61, 0.125);
+    top: -10px;
+}
+/* --------------- */
+/* Admin */
+/* --------------- */
 

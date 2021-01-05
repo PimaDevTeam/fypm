@@ -88,15 +88,21 @@
                     <a href="#" class="nav-link">
                     <i class="fa fa-file nav-icon" aria-hidden="true"></i>
                     <p>
-                        Project Topics
+                        Projects
                         <i class="right fas fa-angle-left"></i>
                     </p>
                     </a>
                     <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="#" class="nav-link active">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Add Project Topic</p>
+                        <a href="{{route('project.index')}}" class="nav-link active">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Project Topics</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('assign.index')}}" class="nav-link active">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Assign Project Topics</p>
                         </a>
                     </li>
                     </ul>

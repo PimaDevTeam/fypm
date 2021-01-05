@@ -18,7 +18,7 @@
                     </div>
                 @endforeach
             @endif
-            <h3 class="text-blue-900 font-semibold mb-4">Programs</h3>
+            <h3 class="text-blue-900 font-semibold mb-4">Projects</h3>
             <hr>
             <div class="row">
                 @foreach ($programs as $program)
@@ -33,9 +33,9 @@
             
                             <div class="info-box-content">
                             <span class="info-box-text">{{$program->program}}</span>
-                            {{-- <span class="info-box-number">Students: <span>600</span></span> --}}
-                            <!-- <a href="{{route('assign.show', $program->id)}}" class="btn btn-primary btn-admin btn-sm mt-2">View</a> -->
-                            <a href="{{route('assign.category', $program->program)}}" class="btn btn-primary btn-admin btn-sm mt-2">View</a>
+                                <a href="{{route('project.topics', $program->id)}}" class="btn btn-primary btn-admin btn-sm mt-2">Project Topics</a>
+                                <a href="{{route('project.topics.approve', $program->id)}}" class="btn btn-primary btn-admin btn-sm mt-2">Approve</a>
+
                             </div>
                             <!-- /.info-box-content -->
                         </div>
