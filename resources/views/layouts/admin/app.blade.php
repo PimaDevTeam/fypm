@@ -196,6 +196,7 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/adminLTE.min.js') }}" ></script>
 <script src="{{ asset('js/demo.js') }}" ></script>
-
+<script src="{{ asset('js/loadash.js') }}" ></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/underscore@1.12.0/underscore-min.js"></script> --}}
 @stack('scripts')
 </html>

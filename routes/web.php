@@ -28,7 +28,7 @@ Route::post('/login', 'Auth\AuthController@login')->name('auth.login');
 Route::post('/logout', 'Auth\AuthController@logout')->name('auth.logout');
 Route::group(['middleware' => 'custom.auth'], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('user.dashboard');
-    Route::get('/project', 'ProjectController@index')->name('project.index');
+    Route::get('/project', 'ProjectController@index')->name('student.project.index');
     Route::get('/members', 'ProjectController@projectMembers')->name('project.members');
     // Takes a parameter
     Route::get('/members/student', 'ProjectController@projectMemberStudent')->name('project.member.student');
@@ -80,7 +80,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/unapprove', 'Admin\ProjectController@unapprove')->name('project.unapprove');
         Route::post('/approve', 'Admin\ProjectController@approve')->name('project.approve');
 
-        Route::get('/assign-project', 'Admin\ProjectController@assignIndex')->name('assign.index');
+        Route::get('/assign-project', 'Admin\ProjectController@assignIndex')->name('project.assign.index');
+        Route::get('/assign-topic/{name}', 'Admin\ProjectController@assignTopics')->name('project.assign.show');
+        Route::post('/assign-topic/{id}', 'Admin\ProjectController@assignTopicToStudent')->name('project.assign.topic');
+        Route::get('/topics-assigned/{id}', 'Admin\ProjectController@showStudentsAssignedTopic')->name('project.assigned.students');
 
         // Assign Supervisors to students
         Route::group(['prefix' => 'assign'], function () {
@@ -90,6 +93,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/show-unassign/{show}', 'Admin\AssignSupervisor@unAssign')->name('assign.unassign');
             Route::post('/assign', 'Admin\AssignSupervisor@assignSupervisor')->name('assign.assignSupervisor');
             Route::delete('/unassign/{student}', 'Admin\AssignSupervisor@unassignSupervisor')->name('unassign.supervisor');
+
+            Route::post('/auto-grouping', 'Admin\AssignSupervisor@autoGrouping')->name('auto.group');
         });
     });
 });

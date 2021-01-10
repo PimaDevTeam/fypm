@@ -66,6 +66,10 @@ class User extends Authenticatable
         return $this->belongsTo('App\Degree');
     }
 
+    public function projectUser() {
+        return $this->hasMany('App\UserProject');
+    }
+
 
 
 

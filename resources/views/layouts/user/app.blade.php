@@ -39,7 +39,7 @@
                 @if ($student)
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li class="nav-item {{ Request::is('project*') ? 'active' : '' }}">
-                            <a href="{{ route('project.index') }}" class="nav-link">
+                            <a href="{{ route('student.project.index') }}" class="nav-link">
                                 <i class="fas fa-project-diagram mr-1"></i>
                                 Project
                             </a>

@@ -26,4 +26,12 @@ class Project extends Model
     public function programs() {
         return $this->belongsTo('App\Program');
     }
+
+    public function projectUser() {
+        return $this->hasMany('App\UserProject');
+    }
+
+    public function session() {
+        return $this->belongsTo('App\Session');
+    }
 }

@@ -16,13 +16,13 @@ class UserProject extends Model
     //     return $this->belongsTo('App\ProjectRole');
     // }
 
-    // public function project() {
-    //     return $this->belongsTo('App\Project');
-    // }
+    public function project() {
+        return $this->belongsTo('App\Project');
+    }
 
-    // public function user() {
-    //     return $this->belongsTo('App\User');
-    // }
+    public function users() {
+        return $this->belongsTo('App\User');
+    }
 
     
 }

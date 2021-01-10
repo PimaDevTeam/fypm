@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Program;
 use App\Project;
 use App\User;
+use App\UserProject;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -194,6 +195,106 @@ class ProjectController extends Controller
 
     //Assign Topics
     public function assignIndex() {
-        return view('layouts.admin.project.assign');
+        $programs = Program::all();
+        return view('layouts.admin.project.assign', compact('programs'));
+    }
+
+    public function getProgramIdAttribute()
+    {
+        return $this->program_id;
+    }
+
+    public function assignTopics($id) {
+        $program = DB::table('users')
+                        ->where('program_id', $id)
+                        ->where('matric_number', '!=', '')
+                        ->select('id', 'program_id')
+                        ->get();
+        // $program = DB::table('programs')
+        //             ->where('id', $id)
+        //             ->get();
+        $studentId = $program[0]->id;
+        $programId = $program[0]->program_id;
+
+
+        $Userprojects = DB::table('user_projects')
+                        ->where('student_id', $studentId)
+                        ->where('project_id', NULL)
+                        ->get();
+        
+        $projects = DB::table('projects')
+                    ->where('project_program_id', $programId)
+                    ->where('project_status_id', 1)
+                    ->get();
+                        
+        // dd($projects);
+        $studentProgram = DB::table('programs')
+                            ->where('id', $program[0]->program_id)
+                            ->get();
+        // dd($studentProgram);
+
+
+        return view('layouts.admin.project.assignTopics', compact('Userprojects', 'studentProgram', 'projects'));
+    }
+
+    public function assignTopicToStudent(Request $request, $id) {
+        $project = DB::table('user_projects')
+                    ->where('student_id', $id)
+                    ->pluck('id');
+                    
+        $userProject = UserProject::find($id);
+        $userProject->project_id = $request->project_id;
+        $userProject->save();
+        return redirect()->back()->with('success', 'Project topic has been assigned');
+
+        // dd($userProject);
+    }
+
+    public function showStudentsAssignedTopic($id) {
+        // $programId = auth()->user()->program_id;
+        // $studentId = auth()->user()->id;
+        $program = DB::table('users')
+                ->where('program_id', $id)
+                ->where('matric_number', '!=', '')
+                ->select('id', 'program_id')
+                ->get();
+
+
+        $studentId = $program[0]->id;
+        // $programId = $program[0]->program_id;
+
+
+        $Userprojects = DB::table('user_projects')
+                ->where('student_id', $studentId)
+                ->where('project_id', '!=', NULL)
+                ->get();
+
+        // dd($Userprojects);  
+                
+        // dd($projects);
+        $studentProgram = DB::table('programs')
+                    ->where('id', $id)
+                    ->get();
+        // dd($studentProgram);
+
+        foreach ($Userprojects as $project) {
+            $student = DB::table('users')
+                        ->where('id', $project->student_id)
+                        ->select('first_name', 'last_name')
+                        ->get();
+            $supervisor = DB::table('users')
+                        ->where('id', $project->supervisor_id)
+                        ->select('first_name', 'last_name')
+                        ->get();
+            $session = DB::table('sessions')
+                        ->where('id', $project->session_id)
+                        ->get();
+            
+            $projectTopic = DB::table('projects')
+                        ->where('id', $project->project_id)
+                        ->where('project_status_id', 1)
+                        ->get();
+        }
+        return view('layouts.admin.project.show', compact('Userprojects', 'projects', 'projectTopic', 'studentProgram', 'student', 'supervisor', 'session'));
     }
 }
