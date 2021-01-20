@@ -75,26 +75,35 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('/programs', 'Admin\ProgramsController');
         //Project Routes
         Route::resource('/project', 'Admin\ProjectController');
-        Route::get('/project-topics/{id}', 'Admin\ProjectController@topics')->name('project.topics');
-        Route::get('/project-approve/{id}', 'Admin\ProjectController@topicsToApprove')->name('project.topics.approve');
-        Route::post('/unapprove', 'Admin\ProjectController@unapprove')->name('project.unapprove');
-        Route::post('/approve', 'Admin\ProjectController@approve')->name('project.approve');
+        Route::group(['prefix' => 'topic'], function () {
+            Route::get('/project-topics/{id}', 'Admin\ProjectController@topics')->name('project.topics');
+            Route::get('/project-approve/{id}', 'Admin\ProjectController@topicsToApprove')->name('project.topics.approve');
+            Route::post('/unapprove', 'Admin\ProjectController@unapprove')->name('project.unapprove');
+            Route::post('/approve', 'Admin\ProjectController@approve')->name('project.approve');
 
-        Route::get('/assign-project', 'Admin\ProjectController@assignIndex')->name('project.assign.index');
-        Route::get('/assign-topic/{name}', 'Admin\ProjectController@assignTopics')->name('project.assign.show');
-        Route::post('/assign-topic/{id}', 'Admin\ProjectController@assignTopicToStudent')->name('project.assign.topic');
-        Route::get('/topics-assigned/{id}', 'Admin\ProjectController@showStudentsAssignedTopic')->name('project.assigned.students');
+            Route::get('/assign-project', 'Admin\ProjectController@assignIndex')->name('project.assign.index');
+            Route::get('/assign-topic/{name}', 'Admin\ProjectController@assignTopics')->name('project.assign.show');
+            Route::post('/assign-topic/{id}', 'Admin\ProjectController@assignTopicToStudent')->name('project.assign.topic');
+            Route::get('/topics-assigned/{id}', 'Admin\ProjectController@showStudentsAssignedTopic')->name('project.assigned.students');
+            Route::post('/topics-remove-topic', 'Admin\ProjectController@studentRemoveTopicAssigned')->name('project.remove.student.topic');
+        });
 
         // Assign Supervisors to students
         Route::group(['prefix' => 'assign'], function () {
             Route::get('/index', 'Admin\AssignSupervisor@index')->name('assign.index');
             Route::get('/assign-category/{name}', 'Admin\AssignSupervisor@assignCategory')->name('assign.category');
-            Route::get('/show-assign/{show}', 'Admin\AssignSupervisor@assign')->name('assign.show');
+            Route::get('/show-assign/{show}', 'Admin\AssignSupervisor@assignStudents')->name('assign.show');
+            Route::get('/show-group/{id}', 'Admin\AssignSupervisor@assignGroups')->name('assign.show.groups');
             Route::get('/show-unassign/{show}', 'Admin\AssignSupervisor@unAssign')->name('assign.unassign');
             Route::post('/assign', 'Admin\AssignSupervisor@assignSupervisor')->name('assign.assignSupervisor');
-            Route::delete('/unassign/{student}', 'Admin\AssignSupervisor@unassignSupervisor')->name('unassign.supervisor');
+            Route::delete('/unassign/{id}', 'Admin\AssignSupervisor@unassignSupervisor')->name('unassign.supervisor');
 
             Route::post('/auto-grouping', 'Admin\AssignSupervisor@autoGrouping')->name('auto.group');
+            Route::post('/group-supervisor', 'Admin\AssignSupervisor@groupAssignSupervisor')->name('group.assign.supervisor');
+            Route::post('/group-delete-supervisor', 'Admin\AssignSupervisor@groupDeleteSupervisor')->name('group.delete.supervisor');
+            Route::post('/group-add-student', 'Admin\AssignSupervisor@groupAddStudent')->name('group.add.student');
+            Route::post('/group-delete-student', 'Admin\AssignSupervisor@groupDeleteStudent')->name('group.delete.student');
+            Route::post('/group-assign-topic', 'Admin\AssignSupervisor@groupAssignTopic')->name('group.assign.topic');
         });
     });
 });

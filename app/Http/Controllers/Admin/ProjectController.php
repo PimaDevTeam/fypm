@@ -34,12 +34,18 @@ class ProjectController extends Controller
         ->where('project_status_id', 1)
         ->where('project_program_id', $id)
         ->get();
-        foreach($projects as $project) {
-            $program = Program::where('id', $project->project_program_id)->get();
-            $proposed = DB::table('users')
-                            ->where('id', $project->proposed_by)->get();
-            $description = Str::limit($project->project_description, 50, '...');
-            // dd($projects);
+        if(count($projects) > 0) {
+            foreach($projects as $project) {
+                $program = Program::where('id', $project->project_program_id)->get();
+                $proposed = DB::table('users')
+                                ->where('id', $project->proposed_by)->get();
+                $description = Str::limit($project->project_description, 50, '...');
+                // dd($program);
+            }
+        } else {
+            $program = '';
+            $proposed = '';
+            $description = '';
         }
         return view('layouts.admin.project.topics', compact('projects', 'program', 'proposed', 'description'));
     }
@@ -49,12 +55,18 @@ class ProjectController extends Controller
         ->where('project_status_id', 2)
         ->where('project_program_id', $id)
         ->get();
-        foreach($projects as $project) {
-            $program = Program::where('id', $project->project_program_id)->get();
-            $proposed = DB::table('users')
-                            ->where('id', $project->proposed_by)->get();
-            $description = Str::limit($project->project_description, 50, '...');
-            // dd($projects);
+        if(count($projects) > 0) {
+            foreach($projects as $project) {
+                $program = Program::where('id', $project->project_program_id)->get();
+                $proposed = DB::table('users')
+                                ->where('id', $project->proposed_by)->get();
+                $description = Str::limit($project->project_description, 50, '...');
+                // dd($projects);
+            }
+        } else {
+            $program = '';
+            $proposed = '';
+            $description = '';
         }
         return view('layouts.admin.project.approve', compact('projects', 'program', 'proposed', 'description'));
     }
@@ -205,44 +217,39 @@ class ProjectController extends Controller
     }
 
     public function assignTopics($id) {
-        $program = DB::table('users')
-                        ->where('program_id', $id)
-                        ->where('matric_number', '!=', '')
-                        ->select('id', 'program_id')
-                        ->get();
-        // $program = DB::table('programs')
-        //             ->where('id', $id)
-        //             ->get();
-        $studentId = $program[0]->id;
-        $programId = $program[0]->program_id;
+        $Userprojects = DB::table('users')
+                ->where('program_id', $id)
+                ->join('user_projects', function ($join) {
+                    $join->on('users.id', '=', 'user_projects.student_id')
+                        ->where('user_projects.project_id', NULL);
+                })
+                ->get();
+        if(count($Userprojects) > 0) {
+            $projects = DB::table('projects')
+                ->where('project_program_id', $Userprojects[0]->program_id)
+                ->where('project_status_id', 1)
+                ->get();
+        } else {
+            $Userprojects = array();
+            $projects = '';
+        }
 
-
-        $Userprojects = DB::table('user_projects')
-                        ->where('student_id', $studentId)
-                        ->where('project_id', NULL)
-                        ->get();
-        
-        $projects = DB::table('projects')
-                    ->where('project_program_id', $programId)
-                    ->where('project_status_id', 1)
-                    ->get();
-                        
-        // dd($projects);
-        $studentProgram = DB::table('programs')
-                            ->where('id', $program[0]->program_id)
-                            ->get();
         // dd($studentProgram);
 
 
-        return view('layouts.admin.project.assignTopics', compact('Userprojects', 'studentProgram', 'projects'));
+        return view('layouts.admin.project.assignTopics', compact('Userprojects', 'projects', 'id'));
     }
 
     public function assignTopicToStudent(Request $request, $id) {
+        // dd($request->all());
         $project = DB::table('user_projects')
                     ->where('student_id', $id)
                     ->pluck('id');
+        // dd($id);
                     
-        $userProject = UserProject::find($id);
+        // $userProject = UserProject::find($project);
+        $userProject = UserProject::where('id', $project)->first();
+        // dd($userProject);
         $userProject->project_id = $request->project_id;
         $userProject->save();
         return redirect()->back()->with('success', 'Project topic has been assigned');
@@ -251,50 +258,25 @@ class ProjectController extends Controller
     }
 
     public function showStudentsAssignedTopic($id) {
-        // $programId = auth()->user()->program_id;
-        // $studentId = auth()->user()->id;
-        $program = DB::table('users')
+        $students = DB::table('users')
                 ->where('program_id', $id)
                 ->where('matric_number', '!=', '')
-                ->select('id', 'program_id')
+                ->join('user_projects', function ($join) {
+                    $join->on('users.id', '=', 'user_projects.student_id')
+                        ->where('user_projects.project_id', '!=', NULL);
+                })
                 ->get();
+        return view('layouts.admin.project.show', compact('students'));
+    }
 
+    public function studentRemoveTopicAssigned(Request $request) {
+        $data = $request->all();
+        $student_id = $request->student_id;
 
-        $studentId = $program[0]->id;
-        // $programId = $program[0]->program_id;
+        $studentProject = UserProject::where('student_id', $student_id)->first();
+        $studentProject->project_id = NULL;
+        $studentProject->save();
+        return redirect()->back()->with('success', 'Project topic has been Unassigned');
 
-
-        $Userprojects = DB::table('user_projects')
-                ->where('student_id', $studentId)
-                ->where('project_id', '!=', NULL)
-                ->get();
-
-        // dd($Userprojects);  
-                
-        // dd($projects);
-        $studentProgram = DB::table('programs')
-                    ->where('id', $id)
-                    ->get();
-        // dd($studentProgram);
-
-        foreach ($Userprojects as $project) {
-            $student = DB::table('users')
-                        ->where('id', $project->student_id)
-                        ->select('first_name', 'last_name')
-                        ->get();
-            $supervisor = DB::table('users')
-                        ->where('id', $project->supervisor_id)
-                        ->select('first_name', 'last_name')
-                        ->get();
-            $session = DB::table('sessions')
-                        ->where('id', $project->session_id)
-                        ->get();
-            
-            $projectTopic = DB::table('projects')
-                        ->where('id', $project->project_id)
-                        ->where('project_status_id', 1)
-                        ->get();
-        }
-        return view('layouts.admin.project.show', compact('Userprojects', 'projects', 'projectTopic', 'studentProgram', 'student', 'supervisor', 'session'));
     }
 }

@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GroupSupervisor extends Model
+class GroupProject extends Model
 {
     protected $fillable = [
-        'group_id', 'supervisor_id', 'program_id'
+        'group_id', 'project_id', 'program_id'
     ];
 }

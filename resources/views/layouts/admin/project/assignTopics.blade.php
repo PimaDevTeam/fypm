@@ -17,10 +17,15 @@
             <div class="card-header flex">
                 Assign Topics 
                 <div class="ml-auto">
-                    <a class="btn btn-admin btn-sm" href="{{route('project.assigned.students', $studentProgram[0]->id)}}">
-                        <i class="fa fa-eye mr-2" aria-hidden="true"></i>
-                        View Students Assigned
-                    </a>
+                    {{-- @if (count($Userprojects) > 0) --}}
+                        <a class="btn btn-admin btn-sm" href="{{route('project.assigned.students', $id)}}">
+                            <i class="fa fa-eye mr-2" aria-hidden="true"></i>
+                            View Students Assigned
+                        </a>
+                    {{-- @else
+                        {{''}}
+                    @endif --}}
+
                 </div>
             </div>
             <div class="card-body">
@@ -39,34 +44,44 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach ($Userprojects as $Userproject)
-                            <form action="{{route('project.assign.topic', $Userproject->student_id)}}" method="POST">
-                                @csrf
-                                {{ method_field('POST') }}
-                                @php
-                                    $student = App\User::where('id', $Userproject->student_id)->get();
-                                    $supervisor = App\User::where('id', $Userproject->supervisor_id)->get();
-                                    $session = App\Session::where('id', $Userproject->session_id)->get()
-                                @endphp
-                                    <td>{{$loop->iteration}}</td>
-                                    <td>{{$student[0]->first_name}} {{$student[0]->last_name}}</td>
-                                    <td>{{$supervisor[0]->first_name}} {{$supervisor[0]->last_name}}</td>
-                                    <td>{{$studentProgram[0]->program}}</td>
-                                    {{-- <td>{{$Userproject->project_id}}</td> --}}
-                                    <td>
-                                        <select class="form-control" name="project_id" id="">
-                                            <option value="" selected="true" disabled="true">Select Topic</option>
-                                            @foreach ($projects as $project)
-                                                <option value="{{$project->id}}">{{$project->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{{$session[0]->session}}</td>
-                                    <td>
-                                        <button type="submit" class="btn btn-primary btn-admin"> <i class="fa fa-plus" aria-hidden="true"></i> Assign Topic</button>
-                                    </td>
-                            </form>
-                        @endforeach
+                        @if (count($Userprojects) > 0) 
+                            @foreach ($Userprojects as $Userproject)
+                                <tr>
+                                    <form action="{{route('project.assign.topic', $Userproject->student_id)}}" method="POST">
+                                        @csrf
+                                        {{ method_field('POST') }}
+                                        @php
+                                            $student = App\User::where('id', $Userproject->student_id)->get();
+                                            $supervisor = App\User::where('id', $Userproject->supervisor_id)->get();
+                                            $session = App\Session::where('id', $Userproject->session_id)->get()
+                                        @endphp
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$student[0]->first_name}} {{$student[0]->last_name}}</td>
+                                            <td>{{$supervisor[0]->first_name}} {{$supervisor[0]->last_name}}</td>
+                                            {{-- <td>''</td> --}}
+                                            @php
+                                                $program = App\Program::where('id', $Userproject->program_id)->get()
+                                            @endphp
+                                            <td>{{$program[0]->program}}</td>
+                                            <td>
+                                                <select class="form-control" name="project_id" id="">
+                                                    <option value="" selected="true" disabled="true">Select Topic</option>
+                                                    @foreach ($projects as $project)
+                                                        <option value="{{$project->id}}">{{$project->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>{{$session[0]->session}}</td>
+                                            <td>
+                                                <button type="submit" class="btn btn-primary btn-admin"> <i class="fa fa-plus" aria-hidden="true"></i> Assign Topic</button>
+                                            </td>
+                                    </form>
+                                </tr>
+                                
+                            @endforeach   
+                        @else
+                            <h6 class="text-center text-2xl"> No Student Found</h6>
+                        @endif
 
                     </tbody>
                 </table>

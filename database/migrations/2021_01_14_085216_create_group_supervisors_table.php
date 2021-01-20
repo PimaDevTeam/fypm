@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupSupervisorTable extends Migration
+class CreateGroupSupervisorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateGroupSupervisorTable extends Migration
      */
     public function up()
     {
-        Schema::create('group_supervisor', function (Blueprint $table) {
+        Schema::create('group_supervisors', function (Blueprint $table) {
             $table->id();
             $table->integer('group_id');
             $table->integer('supervisor_id');
+            $table->integer('program_id');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateGroupSupervisorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_supervisor');
+        Schema::dropIfExists('group_supervisors');
     }
 }

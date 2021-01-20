@@ -39,58 +39,66 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach ($projects as $project)
-                            @php
-                                $name = App\User::where('id', $project->proposed_by)->get();
-                            @endphp
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>
-                                    <a href="#" id="viewModal" data-toggle="modal" data-target="#projectViewModal" 
-                                    data-project_id="{{$project->id}}"
-                                    data-project_title="{{$project->name}}"
-                                    data-project_description="{{$project->project_description}}"
-                                    data-project_proposed_by="{{$name[0]->first_name}} {{$name[0]->last_name}}"
-                                    > 
-                                    {{$project->name}}
-                                </a>
-                                </td>
-                                <td>{{$name[0]->first_name}} {{$name[0]->last_name}}</td>
-                                <td>{{$program->first()->program}}</td>
-                                <td>
-                                    @if ($project->project_status_id == 2) 
-                                        <span class='badge badge-secondary p-2'>
-                                            {{-- <i class="fa fa-check" aria-hidden="true"></i> --}}
-                                            {{-- {{$project->projectStatus()->find($project->project_status_id)->project_status}} --}}
-                                            Waiting Approval
-                                        </span>
-                                    @endif
-                                </td>
-                                <td>{{$description}}</td>
-                                <td>{{$project->project_file}}</td>
-                                <td>{{date('d-m-Y', strtotime($project->created_at))}}</td>
-                                <td>
-                                    <form action="{{route('project.approve')}}" method="POST">
-                                        @csrf
-                                        {{ method_field('POST') }}
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                        {{-- @if ($project->project_status_id == 1)  --}}
-                                                <input type="hidden" name="id" value="{{$project->id}}">
-                                                {{-- <button type="submit" class="btn btn-danger btn-sm"> <i class="fa fa-times" aria-hidden="true"></i> Unapprove</button> --}}
-                                        {{-- @else --}}
-                                            <button type="submit" class="btn btn-success btn-sm"> 
-                                                <i class="fa fa-check" aria-hidden="true"></i> Approve
-                                            </button>
-                                        {{-- @endif --}}
-                                            <a href="{{route('project.edit', $project->id)}}" class="btn btn-secondary btn-admin btn-sm {{ $project->proposed_by == auth()->user()->id ? '' : 'd-none' }}"> 
-                                                <i class="fas fa-edit"></i> Edit
-                                            </a>
-                                        </div>
-                                    </form>
+                        @if (count($projects) > 0)
+                            @foreach ($projects as $project)
+                                @php
+                                    $name = App\User::where('id', $project->proposed_by)->get();
+                                @endphp
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>
+                                        <a href="#" id="viewModal" data-toggle="modal" data-target="#projectViewModal" 
+                                        data-project_id="{{$project->id}}"
+                                        data-project_title="{{$project->name}}"
+                                        data-project_description="{{$project->project_description}}"
+                                        data-project_proposed_by="{{$name[0]->first_name}} {{$name[0]->last_name}}"
+                                        > 
+                                        {{$project->name}}
+                                    </a>
+                                    </td>
+                                    <td>{{$name[0]->first_name}} {{$name[0]->last_name}}</td>
+                                    <td>
+                                            {{$program->first()->program}}
+                                    </td>
+                                    <td>
+                                        @if ($project->project_status_id == 2) 
+                                            <span class='badge badge-secondary p-2'>
+                                                {{-- <i class="fa fa-check" aria-hidden="true"></i> --}}
+                                                {{-- {{$project->projectStatus()->find($project->project_status_id)->project_status}} --}}
+                                                Waiting Approval
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td>{{$description}}</td>
+                                    <td>{{$project->project_file}}</td>
+                                    <td>{{date('d-m-Y', strtotime($project->created_at))}}</td>
+                                    <td>
+                                        <form action="{{route('project.approve')}}" method="POST">
+                                            @csrf
+                                            {{ method_field('POST') }}
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                            {{-- @if ($project->project_status_id == 1)  --}}
+                                                    <input type="hidden" name="id" value="{{$project->id}}">
+                                                    {{-- <button type="submit" class="btn btn-danger btn-sm"> <i class="fa fa-times" aria-hidden="true"></i> Unapprove</button> --}}
+                                            {{-- @else --}}
+                                                <button type="submit" class="btn btn-success btn-sm"> 
+                                                    <i class="fa fa-check" aria-hidden="true"></i> Approve
+                                                </button>
+                                            {{-- @endif --}}
+                                                <a href="{{route('project.edit', $project->id)}}" class="btn btn-secondary btn-admin btn-sm {{ $project->proposed_by == auth()->user()->id ? '' : 'd-none' }}"> 
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                            </div>
+                                        </form>
 
-                                </td>
-                            </tr>
-                        @endforeach
+                                    </td>
+                                </tr>
+                            @endforeach     
+                        @else
+                        <tbody>
+                           <h6 class="text-center text-2xl">No Project to approve</h6>
+                        </tbody>
+                        @endif
                     </tbody>
                 </table>
             </div>

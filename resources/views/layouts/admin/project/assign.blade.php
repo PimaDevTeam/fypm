@@ -34,7 +34,7 @@
                             <div class="info-box-content">
                             <span class="info-box-text">{{$program->program}}</span>
                                 <a href="{{route('project.assign.show', $program->id)}}" class="btn btn-primary btn-admin btn-sm mt-2">Assign Topics</a>
-                                {{-- <a href="{{route('project.topics.approve', $program->id)}}" class="btn btn-primary btn-admin btn-sm mt-2">Approve</a> --}}
+                                <a href="{{route('project.assigned.students', $program->id)}}" class="btn btn-primary btn-admin btn-sm mt-2">View Topics Assigned </a>
                             </div>
                             <!-- /.info-box-content -->
                         </div>

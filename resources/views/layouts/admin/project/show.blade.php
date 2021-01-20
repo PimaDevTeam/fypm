@@ -15,7 +15,7 @@
         @endif
         <div class="card">
             <div class="card-header flex">
-                Students Assigned
+                Topics Assigned to students
                 {{-- <div class="ml-auto">
                     <a class="btn btn-admin btn-sm" href="">
                         <i class="fa fa-eye mr-2" aria-hidden="true"></i>
@@ -37,14 +37,28 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach ($Userprojects as $project)
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$student[0]->first_name}} {{$student[0]->last_name}}</td>
-                            <td>{{$supervisor[0]->first_name}} {{$supervisor[0]->last_name}}</td>
-                            <td>{{$studentProgram[0]->program}}</td>
-                            <td>{{$projectTopic[0]->name}}</td>
-                            <td>{{$session[0]->session}}</td>
-                            <td>Action</td>
+                        @foreach ($students as $student)
+                        @php
+                            $supervisor = App\User::where('id', $student->supervisor_id)->select('first_name', 'last_name')->get();
+                            $program = App\Program::where('id', $student->program_id)->select('program')->get();
+                            $project = App\Project::where('id', $student->project_id)->select('name')->get();
+                            $session = App\Session::where('id', $student->session_id)->select('session')->get();
+                        @endphp
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$student->first_name}} {{$student->last_name}}</td>
+                                <td>{{$supervisor[0]->first_name}} {{$supervisor[0]->last_name}}</td>
+                                <td>{{$program[0]->program}}</td>
+                                <td>{{$project[0]->name}}</td>
+                                <td>{{$session[0]->session}}</td>
+                                <td>
+                                    <form action="{{route('project.remove.student.topic')}}" class="mb-0" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="student_id" value="{{$student->student_id}}">
+                                        <button type="submit" class="btn btn-danger btn-sm">Remove topic</button>
+                                    </form>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

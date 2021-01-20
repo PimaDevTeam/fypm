@@ -8,9 +8,13 @@ use App\Program;
 use App\Session;
 use App\RoleUser;
 use App\UserProject;
+use App\GroupMember;
+use App\GroupSupervisor;
+use App\GroupProject;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Pagination;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Validator;
@@ -35,12 +39,16 @@ class AssignSupervisor extends Controller
         return view('layouts.admin.assign.assignUnsign', ['program' => $program]);
     }
 
-    public function assign($id) {
+    public function assignStudents($id) {
         $roleStudent = Role::where('id', 4)->first();
         $students = $roleStudent->users()->where('program_id', $id)->get();
 
         $studentIdUserProject = UserProject::pluck('student_id')->all();
-        $studentsAssigned = $students->whereNotIn('id', $studentIdUserProject)->all();
+        $studentIdGroup = GroupMember::pluck('student_id')->all();
+        $studentsAssigned = $students->whereNotIn('id', $studentIdUserProject)
+                                ->whereNotIn('id', $studentIdGroup)
+                                ->all();
+        // dd($studentsAssigned);
 
         $group_id = $students->whereNotIn('id', $studentIdUserProject)->pluck('id')->all();
         $sessions = Session::all(); 
@@ -55,12 +63,137 @@ class AssignSupervisor extends Controller
         return view('layouts.admin.assign.show', compact('studentsAssigned', 'supervisors', 'sessions', 'group_id'));
     }
 
+    public function assignGroups($id) {
+        // $groups = GroupMember::where('program_id', $id)->get()->groupBy('group_id');
+
+        // Groups
+        $groups = GroupMember::where('program_id', $id)->select('group_id', 'student_id', 'program_id')->get()->groupBy('group_id');
+        // $groups->paginate(5);
+
+        $groupSupervisorId = GroupSupervisor::where('program_id', $id)->select('group_id', 'supervisor_id')->get();
+
+        // supervisors
+        $roleSupervisor = Role::where('id', 3)->first();
+        $supervisors = $roleSupervisor->users()->where('program_id', $id)->get();
+
+        // Students
+        $roleStudent = Role::where('id', 4)->first();
+        $students = $roleStudent->users()->where('program_id', $id)->get();
+
+        $studentIdUserProject = UserProject::pluck('student_id')->all();
+        $studentIdGroup = GroupMember::pluck('student_id')->all();
+        $studentsAssigned = $students->whereNotIn('id', $studentIdUserProject)
+                                ->whereNotIn('id', $studentIdGroup)
+                                ->all();
+        $projects = DB::table('projects')
+                ->where('project_status_id', 1)
+                ->where('project_program_id', $id)
+                ->get();
+
+        // groups Assigned topic
+        $groupProject = GroupProject::where('program_id', $id)->select('group_id', 'project_id')->get();
+
+
+        // dd($groupProject);
+
+        return view('layouts.admin.assign.groupsShow', compact('groups', 'supervisors', 'groupSupervisorId', 'studentsAssigned', 'projects', 'groupProject'));
+    }
+
+    public function groupAssignSupervisor(Request $request, GroupSupervisor $groupSupervisor) {
+        $data = $request->all();
+        $validatedData = Validator::make($request->all(), [
+            'supervisor_id' => 'required|integer',
+            'group_id' => 'required|integer',
+            'program_id' => 'required|integer'
+        ]);
+        if($validatedData->fails()) {
+            return redirect()->back()->withErrors('Select a supervisor');
+        }
+
+        $groupSupervisor->group_id = $request->group_id;
+        $groupSupervisor->supervisor_id = $request->supervisor_id;
+        $groupSupervisor->program_id = $request->program_id;
+        $groupSupervisor->save();
+        // dd($data);
+
+        return redirect()->back()->with('success', 'Supervisor Successfully Assigned');
+    }
+
+    public function groupDeleteSupervisor(Request $request) {
+        $group_id = $request->group_id;
+        $supervisor_id = $request->supervisor_id;
+        $program_id = $request->program_id;
+
+        $groupToDelete = GroupSupervisor::where('group_id', $group_id)
+                                        ->where('supervisor_id', $supervisor_id)
+                                        ->where('program_id', $program_id)
+                                        ->first();
+        $groupToDelete->delete();
+        return redirect()->back()->with('success', 'Supervisor removed');
+        // dd($groupToDelete);
+
+    }
+
+    public function groupAddStudent(Request $request) {
+        $st = array();
+        foreach ($request->student as $data) {
+            array_push($st, $data);
+        }
+        // group Id
+        $gp = array();
+        foreach($request->group as $group) {
+            array_push($gp, $group);
+        }
+        //getting student's details
+        $students = array();
+        foreach($st as $stu) {
+            $studentUser = User::where('id', $stu)->select('id', 'program_id')->get();
+            array_push($students, $studentUser);
+        }
+
+        // dd($students);
+        $studentGroupMember = array();
+        foreach($students as $student) {
+            array_push($studentGroupMember, [
+                'group_id' => $gp[0],
+                'student_id' => $student[0]->id,
+                'program_id' => $student[0]->program_id,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+        // dd($studentGroupMember);
+        DB::table('group_members')->insert($studentGroupMember);
+        return redirect()->back()->with('success', 'Student added to group');
+    }
+
+    public function groupDeleteStudent(Request $request) {
+        $group_id = $request->group_id;
+        $student_id = $request->student_id;
+        $program_id = $request->program_id;
+
+        $studentToDelete = GroupMember::where('group_id', $group_id)
+                                        ->where('student_id', $student_id)
+                                        ->where('program_id', $program_id)
+                                        ->first();
+        $studentToDelete->delete();
+        return redirect()->back()->with('success', 'Student removed from group');
+    }
+
+
     public function unAssign($id) {
         $roleStudent = Role::where('id', 4)->first();
         $students = $roleStudent->users()->where('program_id', $id)->get();
 
         $studentIdUserProject = UserProject::pluck('student_id')->all();
         $studentsAssigned = $students->whereIn('id', $studentIdUserProject)->all();
+
+        if(count($studentsAssigned) < 0) {
+            foreach($studentsAssigned as $studentsAssigned) {
+                $studentsAssigned = array();
+                // dd($studentsAssigned);
+            }
+        }
         
         // dd($studentsAssigned);
         $sessions = Session::all(); 
@@ -98,12 +231,35 @@ class AssignSupervisor extends Controller
 
     }
 
+    public function groupAssignTopic(Request $request, GroupProject $groupProject) {
+        // dd($request->all());
+        $validatedData = Validator::make($request->all(), [
+            'group_id' => 'required|integer',
+            'project_id' => 'required|integer',
+            'program_id' => 'required|integer',
+            // 'session_id' => 'required|integer'
+        ]);
+
+        if($validatedData->fails()) {
+            return redirect()->back()->withErrors('Select a topic');
+        }
+
+        $groupProject->group_id = $request->group_id;
+        $groupProject->project_id = $request->project_id;
+        $groupProject->program_id = $request->program_id;
+        $groupProject->session_id = 4;
+        $groupProject->save();
+
+        return redirect()->back()->with('success', 'Topic Successfully Assigned');
+    }
+
     public function unassignSupervisor($id) {
         $studentAssigned = UserProject::where('student_id', $id)->first();
         // dd($studentAssigned);
         $studentAssigned->delete();
 
-        return redirect(route('assign.unassign'))->with('success', 'Student has been unassigned');
+        // return redirect(route('assign.unassign'))->with('success', 'Student has been unassigned');
+        return redirect()->back()->with('success', 'Student has been unassigned');
     }
 
     public function autoGrouping(Request $request) {
@@ -186,27 +342,17 @@ class AssignSupervisor extends Controller
 
             $groups = [];
             $r = (int) count($chunk);
-            // for($i = 0; $i <= $r; $i++) {
-                // echo($i);
-                // for($j = 0; $j <= $r[$i]; $j++) {
-                    foreach ($chunk as $key => $value) {
-                        // $groups = [
-                            // 'group_id' => $key,
-                            // 'student_id' => $value[$j],
-                            // 'program_id' => $id
-                        // ];
-                        foreach ($value as $groupStudent => $student) {
-                            array_push($groups, [
-                                'group_id' => $key,
-                                'student_id' => $student,
-                                'program_id' => $id,
-                                'created_at' => now(),
-                                'updated_at' => now()
-                            ]);   
-                        }
-                    }
-                // }
-            // }
+            foreach ($chunk as $key => $value) {
+                foreach ($value as $groupStudent => $student) {
+                    array_push($groups, [
+                        'group_id' => $key,
+                        'student_id' => $student,
+                        'program_id' => $id,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);   
+                }
+            }
             // dd($groups);
             DB::table('group_members')->insert($groups);
             return redirect()->back()->with('success', 'Groups Created');

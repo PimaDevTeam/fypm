@@ -40,45 +40,47 @@
                             <th>Action</th>
                         </tr>
                         </thead>
-                        @foreach ($studentsAssigned as $student)
-                        <form action="{{ route('assign.assignSupervisor') }}" method="POST">
-                            @csrf
-                            <tbody>
-                                <tr>
-                                    <td>{{$loop->iteration}}</td>
-                                    <td>{{$student->first_name}} {{$student->last_name}}</td>
-                                    <input type="hidden" name="student_id" value="{{$student->id}}">
-                                    <td>
-                                        {{-- @if ($userProject->supervisor_id == '') --}}
-                                            <div class="form-group">
-                                                <select class="form-control form-control-sm" name="supervisor_id" id="">
-                                                <option value="" selected="true" disabled="true">Select Supervisor</option>
-                                                @foreach ($supervisors as $supervisor)
-                                                    <option value="{{$supervisor->id}}" id="{{$supervisor->first_name}}">{{$supervisor->first_name}} {{$supervisor->last_name}}</option>
-                                                @endforeach
-                                                </select>
-                                            </div>
-                                        {{-- @else --}}
-                                            {{-- <h6> Name {{$userProject->supervisor_id}}</h6> --}}
-                                        {{-- @endif --}}
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <select class="form-control form-control-sm" name="session_id" id="">
-                                                <option value="" selected="true" disabled="true">Select Session</option>
-                                                @foreach ($sessions as $session)
-                                                    <option value="{{$session->id}}" id="{{$session->session}}">{{$session->session}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button type="submit" class="btn btn-primary btn-admin btn-sm"> <i class="fa fa-plus" aria-hidden="true"></i> Assign</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </form>
-                        @endforeach
+                        @if (!empty($studentsAssigned))
+                            @foreach ($studentsAssigned as $student)
+                                <form action="{{ route('assign.assignSupervisor') }}" method="POST">
+                                    @csrf
+                                    <tbody>
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$student->first_name}} {{$student->last_name}}</td>
+                                            <input type="hidden" name="student_id" value="{{$student->id}}">
+                                            <td>
+                                                {{-- @if ($userProject->supervisor_id == '') --}}
+                                                    <div class="form-group">
+                                                        <select class="form-control form-control-sm" name="supervisor_id" id="">
+                                                        <option value="" selected="true" disabled="true">Select Supervisor</option>
+                                                        @foreach ($supervisors as $supervisor)
+                                                            <option value="{{$supervisor->id}}" id="{{$supervisor->first_name}}">{{$supervisor->first_name}} {{$supervisor->last_name}}</option>
+                                                        @endforeach
+                                                        </select>
+                                                    </div>
+                                                {{-- @else --}}
+                                                    {{-- <h6> Name {{$userProject->supervisor_id}}</h6> --}}
+                                                {{-- @endif --}}
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <select class="form-control form-control-sm" name="session_id" id="">
+                                                        <option value="" selected="true" disabled="true">Select Session</option>
+                                                        @foreach ($sessions as $session)
+                                                            <option value="{{$session->id}}" id="{{$session->session}}">{{$session->session}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="submit" class="btn btn-primary btn-admin btn-sm"> <i class="fa fa-plus" aria-hidden="true"></i> Assign</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </form>
+                            @endforeach
+                        @endif
                         {{-- {{$studentsAssigned->count()}} --}}
                     </table>
                     {{-- <form action="{{ route('assign.assign') }}" method="POST">
@@ -109,7 +111,15 @@
                     </h1>
                     <div class="form-group mt-4">
                         <label for="">Number of Students Per Group</label>
-                        <input type="hidden" name="program_id" value="{{$student->program_id}}">
+                        <input type="hidden" name="program_id" value="
+                            @php
+                                if(!$studentsAssigned) {
+                                   '';
+                                } else {
+                                    echo $student->program_id;
+                                }
+                            @endphp
+                        ">
                         <input type="text" class="form-control" name="number_of_students_per_group" id="number_of_students_per_group">
                     </div>
                     <div class="flex justify-center mt-4">
@@ -126,13 +136,17 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        $('.toast').toast('show');
 
-        // console.log({{ $student->count() }})
-        $totalStudents = {{ $student->count() }};
+        if(@php if(!$studentsAssigned) @endphp) {
+            $totalStudents = 0;
+        } else {
+            $totalStudents = {{ count($studentsAssigned) }};
+        }
+        console.log($to)
         if($totalStudents < 10) {
             $('#btnAutomate').hide();
         }
-        $('.toast').toast('show');
 
         // $arr = {!! json_encode($group_id) !!};
         // $sh = _.shuffle($arr);
