@@ -41,7 +41,7 @@
                         @php
                             $supervisor = App\User::where('id', $student->supervisor_id)->select('first_name', 'last_name')->get();
                             $program = App\Program::where('id', $student->program_id)->select('program')->get();
-                            $project = App\Project::where('id', $student->project_id)->select('name')->get();
+                            $project = App\Project::where('id', $student->project_id)->select('topic')->get();
                             $session = App\Session::where('id', $student->session_id)->select('session')->get();
                         @endphp
                             <tr>
@@ -49,7 +49,7 @@
                                 <td>{{$student->first_name}} {{$student->last_name}}</td>
                                 <td>{{$supervisor[0]->first_name}} {{$supervisor[0]->last_name}}</td>
                                 <td>{{$program[0]->program}}</td>
-                                <td>{{$project[0]->name}}</td>
+                                <td>{{$project[0]->topic}}</td>
                                 <td>{{$session[0]->session}}</td>
                                 <td>
                                     <form action="{{route('project.remove.student.topic')}}" class="mb-0" method="POST">

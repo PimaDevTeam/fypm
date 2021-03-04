@@ -105,7 +105,7 @@ class ProjectController extends Controller
             $request->project_status = 2;
         }
 
-        $project->name = $request->topic;
+        $project->topic = $request->topic;
         $project->proposed_by = $request->proposed_by;
         $project->project_program_id = $request->program_id;
         $project->project_description = $request->project_description;
@@ -165,7 +165,7 @@ class ProjectController extends Controller
         }
 
         $project = Project::find($id);
-        $project->name = $request->topic;
+        $project->topic = $request->topic;
         $project->proposed_by = $request->proposed_by;
         $project->project_program_id = $request->program_id;
         $project->project_description = $request->project_description;

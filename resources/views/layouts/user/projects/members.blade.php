@@ -58,47 +58,36 @@ $user = Auth::user();
                             <img src="/images/default-profile.png" alt="">
                         </div>
                         <div class="ml-3 mt-2">
-                            <h6 class="font-semibold">Prof. J.V Joshua</h6>
-                            <small class="text-gray-500 mt-1">Software Engineering <small>Lecturer</small> </small>
+                            <h6 class="font-semibold">{{$supervisor[0]->first_name}} {{$supervisor[0]->last_name}}</h6>
+                            @php
+                                $program = App\Program::where('id', $supervisor[0]->program_id)->first();
+                            @endphp
+                            <small class="text-gray-500 mt-1">{{$program->program}} <small>Lecturer</small> </small>
                         </div>
                     </div>
                 </div>
                 <hr>
+                @php
+                    // dd($supervisor);
+                @endphp
                 <h6 class="text-blue-900 font-semibold uppercase">Project STUDENTS </h6>
-                <div class="flex">
-                    <div class="project-member__image-container">
-                        <img src="/images/default-profile.png" alt="">
+                @foreach ($members as $member)
+                    <div class="flex">
+                        <div class="project-member__image-container">
+                            {{-- <img src="/images/default-profile.png" alt=""> --}}
+                            <img src="{{asset('/storage/images/'.$member->image)}}" onerror="this.onerror=null;this.src='/images/avatar.png';" alt="avatar">
+                        </div>
+                        <div class="ml-3 mt-2">
+                            <h6 class="font-semibold">
+                                <a href="{{ route('project.member.student', $member->id) }}" class="text-blue-900">
+                                    {{$member->first_name}} {{$member->last_name}}
+                                </a>
+                            </h6>
+                            <i class="text-gray-500 mt-1" style="font-size: .75rem">Student Participant</i>
+                        </div>
                     </div>
-                    <div class="ml-3 mt-2">
-                        <h6 class="font-semibold">
-                            <a href="{{ route('project.member.student') }}">
-                                Bright Chris
-                            </a>
-                        </h6>
-                        <small class="text-gray-500 mt-1">Student Participant</small>
-                    </div>
-                </div>
-                <hr>
-                <div class="flex">
-                    <div class="project-member__image-container">
-                        <img src="/images/default-profile.png" alt="">
-                    </div>
-                    <div class="ml-3 mt-2">
-                        <h6 class="font-semibold">Bright Chris</h6>
-                        <small class="text-gray-500 mt-1">Student Participant</small>
-                    </div>
-                </div>
-                <hr>
-                <div class="flex">
-                    <div class="project-member__image-container">
-                        <img src="/images/default-profile.png" alt="">
-                    </div>
-                    <div class="ml-3 mt-2">
-                        <h6 class="font-semibold">Bright Chris</h6>
-                        <small class="text-gray-500 mt-1">Student Participant</small>
-                    </div>
-                </div>
-                <hr>
+                    <hr>
+                @endforeach
             </div>
         </div>
         @include('layouts.user.right_sidebar')

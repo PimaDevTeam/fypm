@@ -30,18 +30,19 @@ Route::group(['middleware' => 'custom.auth'], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('user.dashboard');
     Route::get('/project', 'ProjectController@index')->name('student.project.index');
     Route::get('/members', 'ProjectController@projectMembers')->name('project.members');
-    // Takes a parameter
-    Route::get('/members/student', 'ProjectController@projectMemberStudent')->name('project.member.student');
+
+    Route::get('/members/student/{id}', 'ProjectController@projectMemberStudent')->name('project.member.student');
     Route::get('/project/student-upload', 'ProjectController@upload')->name('student.project.upload');
 
     // Project Topics
     Route::get('/topics', 'ProjectTopicsController@index')->name('project.topics.index');
-    // Takes a parameter
+    Route::get('/project-topic', 'ProjectTopicsController@submitProjectTopic')->name('project.topic.upload');
+    Route::post('/student-project-topic', 'ProjectTopicsController@projectTopic')->name('student.project.submit');
+
     Route::get('/topics/show', 'ProjectTopicsController@showProject')->name('project.topics.show');
 
     //Project Resources
     Route::get('/resources', 'ProjectResourcesController@index')->name('project.resources.index');
-    // Takes a parameter
     Route::get('/resources/show', 'ProjectResourcesController@showResources')->name('project.resources.show');
 
     // Events
@@ -49,16 +50,20 @@ Route::group(['middleware' => 'custom.auth'], function () {
 
     // User Profile
     Route::get('/profile', 'ProfileController@index')->name('user.profile');
+    Route::post('/profile-about', 'ProfileController@updateAbout')->name('user.profile.about');
+    Route::post('/profile-avatar', 'ProfileController@uploadAvatar')->name('user.profile.avatar');
 
 
     // Lecturer Routes
     Route::get('/group', 'Lecturer\GroupController@index')->name('lecturer.groups');
     Route::get('/group/show', 'Lecturer\GroupController@show')->name('lecturer.groups.show');
 
-    // Add project topics
-    Route::get('/project-upload', 'Lecturer\ProjectController@index')->name('lecturer.project.upload');
-
-
+    // project topics
+    Route::get('/project-upload', 'Lecturer\ProjectController@index')->name('lecturer.project.index');
+    Route::post('/project-topic-upload', 'Lecturer\ProjectController@projectTopic')->name('lecturer.project.upload');
+    Route::get('/project-show-topics', 'Lecturer\ProjectController@approveTopics')->name('lecturer.project.approve.show');
+    Route::post('/project-approve-topics', 'Lecturer\ProjectController@approve')->name('lecturer.project.approve.update');
+    Route::post('/project-reject-topics', 'Lecturer\ProjectController@reject')->name('lecturer.project.reject');
 });
 
 
@@ -67,7 +72,8 @@ Route::group(['middleware' => 'custom.auth'], function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Route::group([
-        'middleware' => ['custom.auth','admin']], function () {
+        'middleware' => ['custom.auth', 'admin']
+    ], function () {
         Route::get('/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
         // Schools Routes
         Route::resource('/schools', 'Admin\SchoolsController');

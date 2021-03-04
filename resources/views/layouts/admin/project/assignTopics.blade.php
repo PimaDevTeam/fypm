@@ -67,7 +67,7 @@
                                                 <select class="form-control" name="project_id" id="">
                                                     <option value="" selected="true" disabled="true">Select Topic</option>
                                                     @foreach ($projects as $project)
-                                                        <option value="{{$project->id}}">{{$project->name}}</option>
+                                                        <option value="{{$project->id}}">{{$project->topic}}</option>
                                                     @endforeach
                                                 </select>
                                             </td>

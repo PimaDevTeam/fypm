@@ -44,7 +44,7 @@
                         @foreach ($groups as $key => $group)
                             <div class="col-12 col-md-6 col-lg-6 mb-lg-3">
                                 <div class="assign__card--container shadow p-4 bg-white">
-                                    <h5 class="text-center mb-4 text-2xl">Group {{$loop->iteration}}</h5>
+                                    <h5 class="mb-4 text-2xl">Group {{$loop->iteration}}</h5>
                                     <div class="flex mb-2">
                                         @php
                                             $ids = array();
@@ -59,7 +59,7 @@
                                                 $projectTopicId = App\GroupProject::where('group_id', $key)->get();
                                                 $projectTopic = App\Project::where('id', $projectTopicId[0]->project_id)->get();
                                             @endphp
-                                            <h6 class="mb-0 mr-auto">Topic: {{$projectTopic[0]->name}}</h6>
+                                            <h6 class="mb-0 mr-auto">Topic: {{$projectTopic[0]->topic}}</h6>
                                         @else
                                             <form action="{{route('group.assign.topic')}}" method="POST" class="mb-0 mr-auto" style="width: 45%;">
                                                 @csrf
@@ -67,7 +67,7 @@
                                                     <select class="form-control" name="project_id" id="">
                                                         <option value="" selected="true" disabled="true">Select Project Topic</option>
                                                         @foreach ($projects as $project)
-                                                            <option value="{{$project->id}}">{{$project->name}}</option>
+                                                            <option value="{{$project->id}}">{{$project->topic}}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append">

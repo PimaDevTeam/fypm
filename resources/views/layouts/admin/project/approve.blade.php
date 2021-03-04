@@ -49,11 +49,11 @@
                                     <td>
                                         <a href="#" id="viewModal" data-toggle="modal" data-target="#projectViewModal" 
                                         data-project_id="{{$project->id}}"
-                                        data-project_title="{{$project->name}}"
+                                        data-project_title="{{$project->topic}}"
                                         data-project_description="{{$project->project_description}}"
                                         data-project_proposed_by="{{$name[0]->first_name}} {{$name[0]->last_name}}"
                                         > 
-                                        {{$project->name}}
+                                        {{$project->topic}}
                                     </a>
                                     </td>
                                     <td>{{$name[0]->first_name}} {{$name[0]->last_name}}</td>
@@ -114,7 +114,6 @@
         <div class="modal-content">
             <form id="viewModal" method="POST">
                 @csrf
-                {{ method_field('DELETE') }}
                 <div class="modal-body">
                     <h4 class="text-center text-uppercase">PROPSED BY: <span class="proposedBy"></span></h4>
                     <h6 class="text-uppercase"> Topic: </h6>
@@ -174,13 +173,6 @@
             $('.title').text($project_title);
             $('.description').text($project_description);
             $('.proposedBy').text($project_proposed_by);
-
-            // console.log($project_proposed_by);
-
-
-            // console.log($school_id);
-            // $('#deleteSchoolId').val($school_id);
-            // var attr = $('#deleteSchool').attr('action', route);
         });
 
         var deleteBtn = $('.deleteBtn')

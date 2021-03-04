@@ -48,11 +48,11 @@
                                 <td>
                                     <a href="#" id="viewModal" data-toggle="modal" data-target="#projectViewModal" 
                                     data-project_id="{{$project->id}}"
-                                    data-project_title="{{$project->name}}"
+                                    data-project_title="{{$project->topic}}"
                                     data-project_description="{{$project->project_description}}"
                                     data-project_proposed_by="{{$name[0]->first_name}} {{$name[0]->last_name}}"
                                     > 
-                                    {{$project->name}}
+                                    {{$project->topic}}
                                 </a>
                                 </td>
                                 <td>{{$name[0]->first_name}} {{$name[0]->last_name}}</td>

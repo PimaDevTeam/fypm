@@ -13,7 +13,7 @@
             @csrf
             @include('messages')
             <div class="form-group">
-                <input type="text" class="form-control custom__form-control py-4" name="email" placeholder="Email">
+                <input type="text" class="form-control custom__form-control py-4" name="email" placeholder="Email" autofocus>
             </div>
             <div class="form-group">
                 <input type="password" class="form-control custom__form-control py-4" name="password" placeholder="Password">
@@ -29,36 +29,3 @@
 </div>
     
 @endsection
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            var teacherContainer = document.querySelector('#teacher');
-            var studentContainer = document.querySelector('#student');
-            var teacherCheck = document.querySelector('#teacher__check--circle');
-            var studentCheck = document.querySelector('#student__check--circle');
-            var userSelected = document.querySelector('.user__selected');
-            var loginForm = document.querySelector('#loginForm');
-
-
-            studentContainer.addEventListener('click', function(e) {
-                studentCheck.classList.remove('hidden');
-                teacherCheck.classList.add('hidden');
-                studentCheck.classList.add('visible');
-                studentContainer.classList.add('shadow');
-                teacherContainer.classList.remove('shadow');
-                userSelected.innerHTML = "Student";
-            });
-
-            teacherContainer.addEventListener('click', function(e) {
-                studentCheck.classList.remove('visible');
-                teacherCheck.classList.add('visible');
-                teacherCheck.classList.remove('hidden');
-                studentCheck.classList.add('hidden');
-                studentContainer.classList.remove('shadow');
-                teacherContainer.classList.add('shadow');
-                userSelected.innerHTML = "Teacher"; 
-            });
-
-        });
-    </script>
-@endpush

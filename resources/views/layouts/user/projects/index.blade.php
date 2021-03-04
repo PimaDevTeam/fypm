@@ -37,43 +37,59 @@ $user = Auth::user();
 @section('content') 
     <div class="row mt-4">
         @include('layouts.user.left_sidebar')
+        @php
+            // dd($project);
+        @endphp
         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-            <div class="main__container bg-white rounded shadow px-2 py-2">
-                <h6 class="text-blue-900 font-semibold">LIBRARY MANAGEMENT SYSTEM (LMS) SOFTWARE</h6>
-                <hr class="mt-1">
-                <div class="pj__header-container h-20 bg-gradient-to-r from-teal-400 to-blue-500 rounded"></div>
-                <div class="project__details-container px-2 py-2">
-                    <div class="flex rounded">
-                        <div class="h-20 w-20 bg-blue-800 rounded shadow text-center text-white" style="margin-top: -3rem">
-                            <span class="text-5xl">
-                                <i class="fas fa-book mt-3"></i>
-                            </span>
-                        </div>
-                        <div class="ml-3">
-                            <span class="text-gray-500" style="font-size: .8rem"> <i class="far fa-clock"></i> Sep 30, 2020 - 11:59 PM</span>
-                        </div>
-                        <div class="flex ml-auto">
-                            <div class="justify-end flex project__posted-by">
-                                <img src="/images/default-profile.png" class="mr-2" alt="">
-                                <div>
-                                    <h6 class="mb-1">Posted by</h6>
-                                    <small class="text-gray-500">Prof. Idowu S.A</small>
+            @if ($project !=  NULL)
+                <div class="main__container bg-white rounded shadow px-2 py-2">
+                    <h6 class="text-blue-900 font-semibold text-2xl uppercase">Project Topic: {{$project->topic}}</h6>
+                    <hr class="mt-1">
+                    <div class="pj__header-container h-20 bg-gradient-to-r from-teal-400 to-blue-500 rounded"></div>
+                    <div class="project__details-container px-2 py-2">
+                        <div class="flex rounded">
+                            <div class="h-20 w-20 bg-blue-800 rounded shadow text-center text-white" style="margin-top: -3rem">
+                                <span class="text-5xl">
+                                    <i class="fas fa-book mt-3"></i>
+                                </span>
+                            </div>
+                            <div class="ml-3">
+                                <span class="text-gray-500" style="font-size: .8rem"> <i class="far fa-clock"></i> Sep 30, 2020 - 11:59 PM</span>
+                            </div>
+                            <div class="flex ml-auto">
+                                <div class="justify-end flex project__posted-by">
+                                    <div class="mr-2">
+                                        <h6 class="mb-1">Posted by</h6>
+                                        @php
+                                            $proposed = App\User::where('id', $project->proposed_by)->select('first_name', 'last_name', 'image')->first();
+                                        @endphp
+                                        <small class="text-gray-500">
+                                            @if ($proposed->first_name == 'Super')
+                                                Administrator
+                                            @else
+                                                {{$proposed->last_name}} {{$proposed->first_name}}
+                                            @endif
+                                        </small>
+                                    </div>
+                                    <img src="{{asset('/storage/images/'.$proposed->image)}}" onerror="this.onerror=null;this.src='/images/avatar.png';" class="mr-2" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="mt-2 px-2 py-2">
+                    <h6 class="text-blue-900 font-semibold uppercase">Project Description</h6>
+                    <hr class="mt-1">
+                        <p class="">
+                        {{$project->project_description}}
+                        </p>
+                    </div>
+                </div>  
+            @else
+                <div class="main__container bg-white rounded shadow px-2 py-2">
+                    <h6 class="text-center text-2xl">You have not been assinged topic yet</h6>
                 </div>
-                <div class="mt-2 px-2 py-2">
-                <h6 class="text-blue-900 font-semibold uppercase">Project Description (sub-header)</h6>
-                <hr class="mt-1">
-                    <p class="">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Voluptates maiores eum rem quam laudantium commodi libero, alias quisquam, enim provident 
-                        corrupti accusantium cumque similique sed voluptatem ea consequatur quod laboriosam!
-                    </p>
-                </div>
-            </div> 
-            <div class="main__container bg-white mt-4 rounded shadow px-2 py-2">
+            @endif
+            {{-- <div class="main__container bg-white mt-4 rounded shadow px-2 py-2">
                 <h6 class="text-blue-900 font-semibold">DOWNLOAD PROJECT</h6>
                 <hr class="mt-1">
                 <form action="">
@@ -93,7 +109,7 @@ $user = Auth::user();
                         <button type="submit" class="btn btn-primary mt-2"> <i class="fas fa-download mr-1"></i> Download</button>
                     </div>
                 </form>
-            </div> 
+            </div>  --}}
         </div>
         @include('layouts.user.right_sidebar')
     </div>

@@ -15,7 +15,7 @@
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="main__container bg-white rounded shadow">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-2 px-3 py-3">
-                        <a href="{{ route('project.index') }}">
+                        <a href="{{ route('student.project.index') }}">
                             <div class="project flex shadow-sm rounded">
                                 <div class="md-icon bg-blue-800 rounded">
                                     <img src="/images/doc.svg" class="ml-auto mr-auto mt-3" alt="">
@@ -52,6 +52,9 @@
                     </div>
                 </div> 
             </div>   
+            @php
+                // dd($supervisor);
+            @endphp
         @endif
         {{-- STUDENT COMPONENTS --}}
         {{-- STUDENT COMPONENTS --}}
@@ -87,7 +90,7 @@
                         </a>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-2 px-3 py-3">
-                        <a href="">
+                        <a href="{{route('lecturer.project.index')}}">
                             <div class="project flex shadow-sm rounded">
                                 <div class="md-icon bg-teal-600 rounded">
                                     <img src="/images/text-document.svg" class="ml-auto mr-auto mt-3" alt="">

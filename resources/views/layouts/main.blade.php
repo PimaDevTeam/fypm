@@ -34,6 +34,11 @@
                         <a class="nav-link" href="{{route('auth.home')}}">Login <span class="sr-only">(current)</span></a>
                     </li>
                 @else 
+                    @if (Auth::user()->roles[0]->id === 4)
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{route('user.dashboard')}}">Dashboard</a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('auth.logout') }}" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
@@ -51,6 +56,17 @@
 
 
     <div class="container">
+        {{-- @php
+            function myTest() {
+                static $x = 0;
+                echo $x .'<br/>';
+                $x++;
+            }
+
+            myTest();
+            myTest();
+            myTest();
+        @endphp --}}
         @yield('content')
     </div>
     

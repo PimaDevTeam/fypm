@@ -8,7 +8,7 @@ class Project extends Model
 {
     //
     protected $fillable = [
-        'name', 'proposed_by', 'project_program_id', 'project_description', 'project_status_id', 'project_file'
+        'topic', 'proposed_by', 'project_program_id', 'project_description', 'project_status_id', 'project_file'
     ];
 
     public function projectForum() {

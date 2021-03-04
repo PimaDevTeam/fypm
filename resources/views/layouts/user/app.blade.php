@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
 
     {{-- Editor --}}
-    <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
@@ -27,6 +27,7 @@
 @php
     $student = Auth::user()->roles[0]->id === 4;
     $supervisor = Auth::user()->roles[0]->id === 3;
+    
 @endphp
 <body class="font-sans">
     <nav class="navbar navbar-expand-sm navbar-dark bg-secondary">
@@ -73,7 +74,7 @@
                 @if ($supervisor)
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li class="nav-item {{ Request::is('project*') ? 'active' : '' }}">
-                            <a href="" class="nav-link">
+                            <a href="{{route('lecturer.project.index')}}" class="nav-link">
                                 <i class="fas fa-project-diagram mr-1"></i>
                                 Project
                             </a>
