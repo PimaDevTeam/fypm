@@ -11,23 +11,23 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('auth.login');
     }
-// VALIDATE AND LOGIN USERS
-    public function login (Request $request) {
+    // VALIDATE AND LOGIN USERS
+    public function login(Request $request)
+    {
         $data = $request->all();
         // dd($data);
-        if(empty($request->email) || empty($request->password)) {
+        if (empty($request->email) || empty($request->password)) {
             return redirect()->back()->with('error', 'Field cannot be empty');
         }
 
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = User::where('email', $request->email)->first();
             $role = json_decode($user->roles);
-            // dd($role[0]->id);
-            if($role[0]->id > 2) {
-                // dd(json_decode($user->roles));
+            if ($role[0]->id > 2) {
                 return redirect()->route('user.dashboard');
             } else {
                 return redirect()->route('admin.dashboard');
@@ -39,10 +39,11 @@ class AuthController extends Controller
 
 
 
-    public function logout(){
+    public function logout()
+    {
         $user = Auth::user();
 
         Auth::logout();
-        return redirect('/');
+        return redirect('/login');
     }
 }

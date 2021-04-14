@@ -142,7 +142,7 @@ $user = Auth::user();
                     <div class="md__custom--container p-2 bg-gray-200 rounded">
                         <div class="form-group mb-0" id="preImage">
                         {{-- <input type="file" name="image" id="avatar" class="form-control" aria-describedby="helpId"> --}}
-                        <img id="blah" src="{{asset('/storage/images/'.$user->image)}}" onerror="this.onerror=null;this.src='/images/avatar.png';" class="ml-auto mr-auto mb-2" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                        <img id="ig" src="{{asset('/storage/images/'.$user->image)}}" onerror="this.onerror=null;this.src='/images/avatar.png';" class="ml-auto mr-auto mb-2" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
                             <div class="box">
                                 <input type="file" name="image" id="file-3" class="inputfile inputfile-3" data-multiple-caption="{count} files selected" multiple="">
                                 <label class="flex text-center ml-auto mr-auto transition-all duration-200 ease-in-out" for="file-3"> 
@@ -175,7 +175,7 @@ $user = Auth::user();
                     
                     reader.onload = function(e) {
                         // $('#preImage').prepend(`<img id="blah" src="#" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">`)
-                        $('#blah').attr('src', e.target.result);
+                        $('#ig').attr('src', e.target.result);
                     }
                     
                     reader.readAsDataURL(input.files[0]); // convert to base64 string

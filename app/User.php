@@ -42,31 +42,38 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role');
     }
 
-    public function session() {
+    public function session()
+    {
         return $this->belongsTo('App\Session');
     }
 
-    public function program() {
+    public function program()
+    {
         return $this->belongsTo('App\Program');
     }
 
-    public function projectForum() {
+    public function projectForum()
+    {
         return $this->hasMany('App\ProjectForum');
     }
 
-    public function project() {
+    public function project()
+    {
         return $this->belongsToMany('App\User');
     }
 
-    public function semesterScore() {
+    public function semesterScore()
+    {
         return $this->hasMany('App\SemesterScore');
     }
 
-    public function degree() {
+    public function degree()
+    {
         return $this->belongsTo('App\Degree');
     }
 
-    public function projectUser() {
+    public function projectUser()
+    {
         return $this->hasMany('App\UserProject');
     }
 
@@ -75,9 +82,10 @@ class User extends Authenticatable
 
 
 
-    
-    public function is_admin() {
-        if($this->role_id) {
+
+    public function is_admin()
+    {
+        if ($this->role_id) {
             return true;
         } else {
             return false;

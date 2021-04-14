@@ -21,11 +21,13 @@
     {{-- ADMINLTE JS --}}
     <link rel="stylesheet" href="{{asset('css/adminLTE.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/icons.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/datepicker.css')}}">
     {{-- ./ ADMINLTE JS --}}
 
     <!-- Font Awesome -->
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"> --}}
     <link rel="stylesheet" href="{{asset('fortawesome/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -118,7 +120,7 @@
           <!-- Content Header (Page header) -->
           <div class="content-header">
             <div class="container-fluid">
-              <div class="row mb-2">
+              {{-- <div class="row mb-2">
                 <div class="col-sm-6">
                   <h1 class="m-0 text-dark">Starter Page</h1>
                 </div><!-- /.col -->
@@ -128,7 +130,7 @@
                     <li class="breadcrumb-item active">Starter Page</li>
                   </ol>
                 </div><!-- /.col -->
-              </div><!-- /.row -->
+              </div><!-- /.row --> --}}
             </div><!-- /.container-fluid -->
           </div>
           <!-- /.content-header -->
@@ -196,7 +198,10 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/adminLTE.min.js') }}" ></script>
 <script src="{{ asset('js/demo.js') }}" ></script>
-<script src="{{ asset('js/loadash.js') }}" ></script>
+<script src="{{ asset('js/loadash.min.js') }}" ></script>
+<script src="{{ asset('js/datepicker.js') }}" ></script>
+<script src="{{asset('js/moment.min.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 {{-- <script src="https://cdn.jsdelivr.net/npm/underscore@1.12.0/underscore-min.js"></script> --}}
 @stack('scripts')
 </html>

@@ -54,7 +54,12 @@ $user = Auth::user();
                         </div>
                         <div class="flex ml-auto">
                             <div class="justify-end flex project__posted-by">
-                                <span class="text-gray-500">All project topics for <span>Software Engineering</span> </span>
+                                @php
+                                    $program_id = Auth::user()->program_id;
+                                    $program = App\Program::where('id', $program_id)->first();
+                                    // dd($projects);
+                                @endphp
+                                <span class="text-gray-500">All available project topics for <span>{{$program->program}}</span> </span>
                             </div>
                         </div>
                     </div>
@@ -69,46 +74,30 @@ $user = Auth::user();
                     </p>
                 </div>
             </div> 
-            <div class="main__container bg-white mt-4 rounded shadow-sm px-2 py-2">
-                <div class="flex">
-                    <div class="bg-blue-800 rounded shadow w-20 mr-2"></div>
-                    <div class="project__topics-descriptions">
-                        <div class="flex">
-                            <h6 class="text-blue-900 font-semibold uppercase">
-                                <a href="{{ route('project.topics.show') }}">
-                                    Design and Implementation of E-Career Consultation System
-                                </a>
-                            </h6>
-                            <small class="ml-auto text-green-600 font-bold">Available</small>
+            @foreach ($projects as $project)
+                <div class="main__container bg-white mt-4 rounded shadow-sm px-2 py-2">
+                    <div class="flex">
+                        <div class="bg-blue-800 rounded shadow mr-2" style="width: 10px;"></div>
+                        <div class="project__topics-descriptions w-100">
+                            <div class="flex justify-content-between w-100">
+                                <h6 class="text-blue-900 font-semibold uppercase">
+                                    <a href="{{ route('project.topics.show', $project->topic) }}">
+                                        {{$project->topic}}
+                                    </a>
+                                </h6>
+                                <small class="text-green-600 font-bold">Available</small>
+                            </div>
+                            <small class="text-gray-500">{{$project->last_name}} {{$project->last_name}} </small>
+                            <p class="mt-2 text-gray-600" style="font-size: .8rem">
+                                @php
+                                    $description = Str::limit(strip_tags($project->project_description), 150, '...')
+                                @endphp
+                                {{$description}}
+                            </p>
                         </div>
-                        <small class="text-gray-500">Prof. Idowu S.A - </small>
-                        <p class="mt-2 text-gray-600" style="font-size: .8rem">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Voluptates maiores eum rem quam laudantium commodi libero,
-                        </p>
                     </div>
-                </div>
-            </div> 
-            <div class="main__container bg-white mt-2 rounded shadow-sm px-2 py-2">
-                <div class="flex">
-                    <div class="bg-blue-800 rounded shadow w-20 mr-2"></div>
-                    <div class="project__topics-descriptions">
-                        <div class="flex">
-                            <h6 class="text-blue-900 font-semibold uppercase">
-                                <a href="{{ route('project.topics.show') }}">
-                                    Design and Implementation of E-Career Consultation System
-                                </a>
-                            </h6>
-                            <small class="ml-auto text-green-600 font-bold">Available</small>
-                        </div>
-                        <small class="text-gray-500">Prof. Idowu S.A - </small>
-                        <p class="mt-2 text-gray-600" style="font-size: .8rem">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Voluptates maiores eum rem quam laudantium commodi libero,
-                        </p>
-                    </div>
-                </div>
-            </div> 
+                </div> 
+            @endforeach
         </div>
         @include('layouts.user.right_sidebar')
     </div>

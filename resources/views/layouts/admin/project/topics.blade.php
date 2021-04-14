@@ -49,7 +49,7 @@
                                     <a href="#" id="viewModal" data-toggle="modal" data-target="#projectViewModal" 
                                     data-project_id="{{$project->id}}"
                                     data-project_title="{{$project->topic}}"
-                                    data-project_description="{{$project->project_description}}"
+                                    data-project_description="{{strip_tags($project->project_description)}}"
                                     data-project_proposed_by="{{$name[0]->first_name}} {{$name[0]->last_name}}"
                                     > 
                                     {{$project->topic}}
@@ -114,12 +114,12 @@
                 @csrf
                 {{ method_field('DELETE') }}
                 <div class="modal-body">
-                    <h4 class="text-center text-uppercase">PROPSED BY: <span class="proposedBy"></span></h4>
+                    <h6 class="text-center text-uppercase">PROPSED BY: <span class="proposedBy"></span></h6>
                     <h6 class="text-uppercase"> Topic: </h6>
                     <h6 class="title mb-3"></h6>
                     <h6 class="text-uppercase">Description:</h6>
                     <p class="description p-2 bg-gray-200 rounded"></p>
-                    <p class="file">::file</p>
+                    {{-- <p class="file">::file</p> --}}
                     <input type="hidden" class="form-control" id="viewModalId">
                     <div class="flex justify-center mt-4">
                         {{-- <a href="" class="btn btn-danger btn-sm" id="deleteBtn"></a> --}}

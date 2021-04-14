@@ -84,7 +84,7 @@ class ProjectController extends Controller
             ->where('proposed_by', $request->student_id)
             ->where('project_program_id', $request->program_id)
             ->first();
-        $project->project_status_id = 1;
+        $project->project_status_id = 3;
         $project->update();
         return redirect()->back()->with('student-success', 'Project has been approved');
     }

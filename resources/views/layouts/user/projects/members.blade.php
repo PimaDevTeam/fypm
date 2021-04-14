@@ -51,43 +51,49 @@ $user = Auth::user();
                         </div>
                     </div>
                 </div>
-                <div class="mt-3">
-                    <h6 class="text-blue-900 font-semibold uppercase">Project Supervisor</h6>
-                    <div class="flex">
-                        <div class="project-member__image-container">
-                            <img src="/images/default-profile.png" alt="">
-                        </div>
-                        <div class="ml-3 mt-2">
-                            <h6 class="font-semibold">{{$supervisor[0]->first_name}} {{$supervisor[0]->last_name}}</h6>
-                            @php
-                                $program = App\Program::where('id', $supervisor[0]->program_id)->first();
-                            @endphp
-                            <small class="text-gray-500 mt-1">{{$program->program}} <small>Lecturer</small> </small>
-                        </div>
-                    </div>
-                </div>
-                <hr>
                 @php
-                    // dd($supervisor);
+                    // dd($members);
                 @endphp
-                <h6 class="text-blue-900 font-semibold uppercase">Project STUDENTS </h6>
-                @foreach ($members as $member)
-                    <div class="flex">
-                        <div class="project-member__image-container">
-                            {{-- <img src="/images/default-profile.png" alt=""> --}}
-                            <img src="{{asset('/storage/images/'.$member->image)}}" onerror="this.onerror=null;this.src='/images/avatar.png';" alt="avatar">
-                        </div>
-                        <div class="ml-3 mt-2">
-                            <h6 class="font-semibold">
-                                <a href="{{ route('project.member.student', $member->id) }}" class="text-blue-900">
-                                    {{$member->first_name}} {{$member->last_name}}
-                                </a>
-                            </h6>
-                            <i class="text-gray-500 mt-1" style="font-size: .75rem">Student Participant</i>
+                @if (count($supervisor) > 0)
+                    <div class="mt-3">
+                        <h6 class="text-blue-900 font-semibold uppercase">Project Supervisor</h6>
+                        <div class="flex">
+                            <div class="project-member__image-container">
+                                <img src="/images/default-profile.png" alt="">
+                            </div>
+                            <div class="ml-3 mt-2">
+                                <h6 class="font-semibold">{{$supervisor[0]->first_name}} {{$supervisor[0]->last_name}}</h6>
+                                @php
+                                    $program = App\Program::where('id', $supervisor[0]->program_id)->first();
+                                @endphp
+                                <small class="text-gray-500 mt-1">{{$program->program}} <small>Lecturer</small> </small>
+                            </div>
                         </div>
                     </div>
                     <hr>
-                @endforeach
+                @else 
+                <h6>You have not been assigned Supervisor yet</h6>
+                @endif
+                @if (count($members) > 0)
+                <h6 class="text-blue-900 font-semibold uppercase">Project STUDENTS </h6>
+                    @foreach ($members as $member)
+                        <div class="flex">
+                            <div class="project-member__image-container">
+                                {{-- <img src="/images/default-profile.png" alt=""> --}}
+                                <img src="{{asset('/storage/images/'.$member->image)}}" onerror="this.onerror=null;this.src='/images/avatar.png';" alt="avatar">
+                            </div>
+                            <div class="ml-3 mt-2">
+                                <h6 class="font-semibold">
+                                    <a href="{{ route('project.member.student', $member->id) }}" class="text-blue-900">
+                                        {{$member->first_name}} {{$member->last_name}}
+                                    </a>
+                                </h6>
+                                <i class="text-gray-500 mt-1" style="font-size: .75rem">Student Participant</i>
+                            </div>
+                        </div>
+                        <hr>
+                    @endforeach
+                @endif
             </div>
         </div>
         @include('layouts.user.right_sidebar')

@@ -37,60 +37,64 @@ $user = Auth::user();
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($projects as $project)
-                                <tr>
-                                    <td class="px-2 py-2 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-                                            </div>
-                                            <div class="ml-1">
-                                                <div class="text-sm font-medium text-gray-900">
-                                                {{$project->last_name}} {{$project->first_name}}
+                            @if (count($projects) > 0) 
+                                @foreach ($projects as $project)
+                                    <tr>
+                                        <td class="px-2 py-2 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
                                                 </div>
-                                                <div class="text-sm text-gray-500">
-                                                {{$project->email}}
+                                                <div class="ml-1">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                    {{$project->last_name}} {{$project->first_name}}
+                                                    </div>
+                                                    <div class="text-sm text-gray-500">
+                                                    {{$project->email}}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-2 py-2 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900 pTOFRSTU">
-                                            <a href="#" id="viewModal" data-toggle="modal" data-target="#projectViewModal" 
-                                            data-project_id="{{$project->id}}"
-                                            data-project_title="{{$project->topic}}"
-                                            data-project_description="{{$project->project_description}}"
-                                            data-project_proposed_by="{{$project->last_name}} {{$project->first_name}}"
-                                            > {{$project->topic}}</a>
-                                        </div>
-                                        <div class="text-sm text-gray-500">Optimization</div>
-                                    </td>
-                                    <td class="px-2 py-2 whitespace-nowrap text-sm">
-                                        {{$project->program}}
-                                    </td>
-                                    <td class="px-2 py-2 whitespace-nowrap text-sm text-gray-500">
-                                        {{\Carbon\Carbon::parse($project->created_at)->format("m/d/Y H:i a")}}
-                                    </td>
-                                    <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="#" class="text-indigo-600 hover:text-indigo-900"></a>
-                                        <div class="btn-group pTOFORM" role="group" aria-label="Basic example">
-                                            <form action="{{route('lecturer.project.approve.update')}}" method="POST" class="mb-0">
-                                                @csrf
-                                                <input type="hidden" name="student_id" value="{{$project->student_id}}">
-                                                <input type="hidden" name="program_id" value="{{$project->project_program_id}}">
-                                                <input type="hidden" name="topic" value="{{$project->topic}}">
-                                                <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Approve"> <i class="fa fa-check-circle" aria-hidden="true"></i> </button>
-                                            </form>
-                                            <button type="button" class="btn btn-danger" id="rejectModal" data-toggle="modal" data-target="#projectRejected"
+                                        </td>
+                                        <td class="px-2 py-2 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900 pTOFRSTU">
+                                                <a href="#" id="viewModal" data-toggle="modal" data-target="#projectViewModal" 
+                                                data-project_id="{{$project->id}}"
                                                 data-project_title="{{$project->topic}}"
-                                                data-project_program_id="{{$project->program_id}}"
-                                            > 
-                                            <i class="fa fa-times-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Reject"></i> 
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                                data-project_description="{{$project->project_description}}"
+                                                data-project_proposed_by="{{$project->last_name}} {{$project->first_name}}"
+                                                > {{$project->topic}}</a>
+                                            </div>
+                                            <div class="text-sm text-gray-500">Optimization</div>
+                                        </td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-sm">
+                                            {{$project->program}}
+                                        </td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-sm text-gray-500">
+                                            {{\Carbon\Carbon::parse($project->created_at)->format("m/d/Y H:i a")}}
+                                        </td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900"></a>
+                                            <div class="btn-group pTOFORM" role="group" aria-label="Basic example">
+                                                <form action="{{route('lecturer.project.approve.update')}}" method="POST" class="mb-0">
+                                                    @csrf
+                                                    <input type="hidden" name="student_id" value="{{$project->student_id}}">
+                                                    <input type="hidden" name="program_id" value="{{$project->project_program_id}}">
+                                                    <input type="hidden" name="topic" value="{{$project->topic}}">
+                                                    <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Approve"> <i class="fa fa-check-circle" aria-hidden="true"></i> </button>
+                                                </form>
+                                                <button type="button" class="btn btn-danger" id="rejectModal" data-toggle="modal" data-target="#projectRejected"
+                                                    data-project_title="{{$project->topic}}"
+                                                    data-project_program_id="{{$project->program_id}}"
+                                                > 
+                                                <i class="fa fa-times-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Reject"></i> 
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else 
+                                <h6>No Topic to Approve at the moment</h6>
+                            @endif
                         </tbody>
                         </table>
                     </div>

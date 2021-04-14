@@ -28,7 +28,7 @@
         <div class="toast-header">
             <i class="far fa-check-circle mr-1 text-green-600" style=" font-size: 1.5rem"></i>
             <strong class="mr-auto text-green-600">Successful</strong>
-            <small>
+            <small class="ml-4">
                 @php
                    echo date("h:i:sa")
                 @endphp

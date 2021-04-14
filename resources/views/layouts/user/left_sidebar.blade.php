@@ -77,14 +77,19 @@ $user = Auth::user();
                     <h6 class="font-semi-bold uppercase sidebar__header">Group Members</h6>
                     <ul class="list-group list-group-flush">
                         @foreach ($my_group_members as $member)
-                            <li class="list-group-item"> {{$member->first_name}} {{$member->last_name}}</li>                   
+                        <a href="{{route('project.member.student', $member->id)}}" class="aSTLi text-blue-900">
+                            <li class="list-group-item uppercase hover:bg-gray-200">
+                                 {{$member->last_name}} {{$member->first_name}}
+                            </li>
+                        </a>
+                            {{-- <li class="list-group-item"> {{$member->first_name}} {{$member->last_name}}</li>                    --}}
                         @endforeach
                     </ul>
                 </div>
             @endif
-            <hr>
+            {{-- <hr>
             <h6 class="font-semi-bold uppercase sidebar__header">My Project Document</h6>
-            <a href="{{ route('student.project.upload') }}" class="btn btn-primary btn-block btn-c">Upload Project Document</a>
+            <a href="{{ route('student.project.upload') }}" class="btn btn-primary btn-block btn-c">Upload Project Document</a> --}}
         @endif
         {{-- STUDENT COMPONENT --}}
         {{-- STUDENT COMPONENT --}}
@@ -132,7 +137,9 @@ $user = Auth::user();
                 <ul class="list-group list-group-flush">
                     @if (count($group) > 0) 
                         @foreach ($group as $group)
-                            <li class="list-group-item"> {{$group->program}} Group {{$group->group_id}}</li>                        
+                            <li class="list-group-item">
+                                <a href="{{route('lecturer.groups.show', $group->group_id)}}" class="list-group-link">{{$group->program}} Group {{$group->group_id +1}}</a>
+                            </li>                        
                         @endforeach                        
                     @endif
                 </ul>
@@ -161,9 +168,9 @@ $user = Auth::user();
                             </a>
                         @endforeach
                     @endif
-                    <a href="#" class="lSBBvibtn text-xl uppercase sidebar__header text-center text-blue-900 mt-2 w-45 hover:bg-blue-100 transition duration-150 ease-in-out ">
+                    {{-- <a href="{{route('project.member.student', $member->id)}}" class="lSBBvibtn text-xl uppercase sidebar__header text-center text-blue-900 mt-2 w-45 hover:bg-blue-100 transition duration-150 ease-in-out ">
                         <i class="fa fa-eye" aria-hidden="true"></i> View all
-                    </a>
+                    </a> --}}
                 </ul>
                 <hr>
                 <h6 class="font-semi-bold uppercase sidebar__header">Project</h6>
@@ -175,7 +182,7 @@ $user = Auth::user();
                 <small class="text-mute text-center text-gray-600">Upload, view and approve project topics</small>
                 <hr>
                 <h6 class="font-semi-bold uppercase sidebar__header mt-4">Resources</h6>
-                <a href="" class="btn btn-primary btn-block">Upload Project Resources</a>
+                <a href="" class="btn btn-primary btn-block btn-c">Upload Project Resources</a>
             </div>
         @endif
     </div>

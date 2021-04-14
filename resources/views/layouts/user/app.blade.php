@@ -80,7 +80,7 @@
                             </a>
                         </li>
                         <li class="nav-item {{ Request::is('resources*') ? 'active' : '' }}">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('project.resources.index') }}" class="nav-link">
                                 <i class="fas fa-folder-open mr-1"></i>
                                 Resources
                             </a>
@@ -92,7 +92,7 @@
                             </a>
                         </li>
                         <li class="nav-item {{ Request::is('topics*') ? 'active' : '' }}">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('project.topics.index') }}" class="nav-link">
                                 <i class="fas fa-file-alt mr-1"></i>
                                 Find Projects
                             </a>
@@ -135,7 +135,7 @@
         </div>
     </nav>
 
-    <div class="container mb-5">
+    <div class="container mb-5" id="app">
         @yield('content')
     </div>
     

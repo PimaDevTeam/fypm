@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layouts.main');
-});
+    return view('layouts.index');
+})->name('frontend.index');
 
 Route::get('/login', 'Auth\AuthController@index')->name('auth.home');
 Route::post('/login', 'Auth\AuthController@login')->name('auth.login');
@@ -33,13 +33,15 @@ Route::group(['middleware' => 'custom.auth'], function () {
 
     Route::get('/members/student/{id}', 'ProjectController@projectMemberStudent')->name('project.member.student');
     Route::get('/project/student-upload', 'ProjectController@upload')->name('student.project.upload');
+    Route::post('/project/file', 'ProjectController@projectFile')->name('student.project.file');
+    Route::get('/file-download/{id}', 'ProjectController@fileDownload')->name('student.file.download');
+
 
     // Project Topics
     Route::get('/topics', 'ProjectTopicsController@index')->name('project.topics.index');
     Route::get('/project-topic', 'ProjectTopicsController@submitProjectTopic')->name('project.topic.upload');
     Route::post('/student-project-topic', 'ProjectTopicsController@projectTopic')->name('student.project.submit');
-
-    Route::get('/topics/show', 'ProjectTopicsController@showProject')->name('project.topics.show');
+    Route::get('/topics/show/{show}', 'ProjectTopicsController@showProject')->name('project.topics.show');
 
     //Project Resources
     Route::get('/resources', 'ProjectResourcesController@index')->name('project.resources.index');
@@ -56,7 +58,7 @@ Route::group(['middleware' => 'custom.auth'], function () {
 
     // Lecturer Routes
     Route::get('/group', 'Lecturer\GroupController@index')->name('lecturer.groups');
-    Route::get('/group/show', 'Lecturer\GroupController@show')->name('lecturer.groups.show');
+    Route::get('/group/show/{id}', 'Lecturer\GroupController@show')->name('lecturer.groups.show');
 
     // project topics
     Route::get('/project-upload', 'Lecturer\ProjectController@index')->name('lecturer.project.index');
@@ -64,6 +66,12 @@ Route::group(['middleware' => 'custom.auth'], function () {
     Route::get('/project-show-topics', 'Lecturer\ProjectController@approveTopics')->name('lecturer.project.approve.show');
     Route::post('/project-approve-topics', 'Lecturer\ProjectController@approve')->name('lecturer.project.approve.update');
     Route::post('/project-reject-topics', 'Lecturer\ProjectController@reject')->name('lecturer.project.reject');
+
+    //Comments
+    Route::post('/comments/post', 'CommentsController@save')->name('comments.save');
+    Route::post('/comments/edit/{id}', 'CommentsController@edit')->name('comments.edit');
+    Route::get('/comments/show', 'CommentsController@comments')->name('comments.show');
+    Route::get('/comments/download/{file}', 'CommentsController@commentFileDownload')->name('comments.download.file');
 });
 
 

@@ -31,30 +31,33 @@ $user = Auth::user();
                 </div>
                 <div class="mt-2 px-2 py-2">
                 <h6 class="text-blue-900 font-semibold uppercase">Groups</h6>
-                <hr class="mt-1">
+                {{-- <hr class="mt-1">
                     <p class="">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                         Voluptates maiores eum rem quam laudantium commodi libero, alias quisquam, enim provident 
                         corrupti accusantium cumque similique sed voluptatem ea consequatur quod laboriosam!
-                    </p>
+                    </p> --}}
                 </div>
             </div> 
-            <a href="{{ route('lecturer.groups.show') }}" class="text-blue-800">
-                <div class="flex rounded bg-white mt-2 mb-2 px-2 py-2 shadow-sm">
-                    <div class="bg-red-700 mr-4 rounded" style="width: 5px; height: 30px; "></div>
-                    <div class="mt-1">
-                        <span>CS (GROUP A) Library Management System </span>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ route('lecturer.groups.show') }}" class="text-blue-800">
-                <div class="flex rounded bg-white mb-2 px-2 py-2 shadow-sm">
-                    <div class="bg-red-700 mr-4 rounded" style="width: 5px; height: 30px; "></div>
-                    <div class="mt-1">
-                        <span>CS (GROUP A) Library Management System </span>
-                    </div>
-                </div>
-            </a>
+            @php
+                // dd($groups);
+            @endphp
+            @if (count($groups) > 0)
+                @foreach ($groups as $group)
+                    <a href="{{route('lecturer.groups.show', $group->group_id)}}" class="text-blue-800">
+                        <div class="flex rounded bg-white mt-2 mb-2 px-2 py-2 shadow-sm">
+                            <div class="bg-red-700 mr-4 rounded" style="width: 5px; height: 30px; "></div>
+                            <div class="mt-1">
+                                <span>{{$group->program}} Group {{$group->group_id}} </span>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            @else
+            <div class="main__comtainer bg-white text-center shadow mt-4 px-2 py-2">
+                <h6 class="text-center uppercase mb-0">You haven't been assigned to any group yet</h6>
+            </div>
+            @endif
         </div>
         @include('layouts.user.right_sidebar')
     </div>

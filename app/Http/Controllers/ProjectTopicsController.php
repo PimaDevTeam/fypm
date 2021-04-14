@@ -17,12 +17,49 @@ class ProjectTopicsController extends Controller
 {
     public function index()
     {
-        return view('layouts.user.project_topics.index');
+        $user_program_id = Auth::user()->program_id;
+        $projects = DB::table('projects')
+            ->where('project_program_id', $user_program_id)
+            ->where('project_status_id', [1])
+            ->join('users', function ($join) {
+                $join->on('users.id', 'projects.proposed_by');
+            })
+            ->get();
+        // dd($projects);
+        return view('layouts.user.project_topics.index', compact('projects'));
     }
 
-    public function showProject()
+    public function showProject($show)
     {
-        return view('layouts.user.project_topics.show');
+        $user_id = Auth::user()->id;
+        $group_member = DB::table('group_members')
+            ->where('student_id', $user_id)
+            ->get();
+        if (count($group_member) > 0) {
+            $group_project = DB::table('group_projects')
+                ->where('group_id', $group_member[0]->group_id)
+                ->get();
+            if (count($group_project) > 0) {
+                $assigned = true;
+            } else {
+                $assigned = false;
+            }
+        } else {
+            $user_project = DB::table('user_projects')
+                ->where('student_id', $user_id)
+                ->where('project_id', '!=', NULL)
+                ->first();
+            if ($user_project > 0) {
+                $assigned = true;
+            } else {
+                $assigned = false;
+            }
+        }
+        // grayce.fisher@hotmail.com
+        //  ggoldner@kihn.org
+        $project = Project::where('topic', $show)->first();
+
+        return view('layouts.user.project_topics.show', compact('project', 'assigned'));
     }
 
     public function submitProjectTopic()
@@ -39,12 +76,6 @@ class ProjectTopicsController extends Controller
                 })
                 ->get();
         }
-        // foreach ($project as $project) {
-        //     $rejected = DB::table('project_reasons')
-        //         ->where('project_id', $project->id)
-        //         ->get();
-        //     // dd($rejected);
-        // }
         return view('layouts.user.projects.submit-project-topic', compact('project'));
     }
 
